@@ -1,0 +1,10 @@
+.bestSeller {
+  width: 23%;
+}
+
+@media screen and (max-width: 786px) {
+  .bestSeller {
+    width: 45%;
+    border: 1px solid #d9d9d9;
+  }
+}

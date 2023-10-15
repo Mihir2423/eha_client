@@ -1,0 +1,150 @@
+.box {
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .box .form-wrapper {
+    border: 0px none;
+    height: 465px;
+    overflow-x: hidden;
+    width: 973px;
+  }
+  
+  .box .form {
+    height: 465px;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 985px;
+  }
+  
+  .box .overlap-group {
+    background-color: #ffffff;
+    border-radius: 40px;
+    box-shadow: 0px 0px 28px 7px #00000040;
+    height: 465px;
+    position: relative;
+    width: 973px;
+  }
+  
+  .box .devicon-facebook {
+    height: 31px;
+    left: 729px;
+    position: absolute;
+    top: 379px;
+    width: 31px;
+  }
+  
+  .box .overlap {
+    background-color: #ea1d25;
+    border-radius: 15px;
+    height: 44px;
+    left: 519px;
+    position: absolute;
+    top: 296px;
+    width: 420px;
+  }
+  
+  .box .text-wrapper {
+    color: #ffffff;
+    font-family: "Cabin-Regular", Helvetica;
+    font-size: 16px;
+    font-weight: 400;
+    left: 166px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 12px;
+    white-space: nowrap;
+    width: 87px;
+  }
+  
+  .box .div {
+    height: 69px;
+    left: 519px;
+    position: absolute;
+    top: 41px;
+    width: 177px;
+  }
+  
+  .box .h-1 {
+    color: #000000;
+    font-family: "Noto Looped Thai-Regular", Helvetica;
+    font-size: 32px;
+    font-weight: 400;
+    left: 0;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+  }
+  
+  .box .p {
+    color: #b5b5b5;
+    font-family: "Noto Looped Thai-Regular", Helvetica;
+    font-size: 14px;
+    font-weight: 400;
+    left: 0;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 47px;
+  }
+  
+  .box .text-wrapper-2 {
+    color: #ea1d25;
+    font-family: "Niramit-Regular", Helvetica;
+    font-size: 14px;
+    font-weight: 400;
+    left: 888px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 51px;
+  }
+  
+  .box .text-wrapper-3 {
+    color: #353535;
+    font-family: "Noto Looped Thai-Regular", Helvetica;
+    font-size: 16px;
+    font-weight: 400;
+    left: 519px;
+    letter-spacing: 0;
+    line-height: normal;
+    opacity: 0.82;
+    position: absolute;
+    top: 178px;
+  }
+  
+  .box .line {
+    height: 1px;
+    left: 519px;
+    object-fit: cover;
+    position: absolute;
+    top: 205px;
+    width: 420px;
+  }
+  
+  .box .text-wrapper-4 {
+    color: #484848;
+    font-family: "Noto Looped Thai-Regular", Helvetica;
+    font-size: 14px;
+    font-weight: 400;
+    left: 617px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 383px;
+  }
+  
+  .box .devicon-google {
+    height: 28px;
+    left: 776px;
+    position: absolute;
+    top: 381px;
+    width: 28px;
+  }
+  

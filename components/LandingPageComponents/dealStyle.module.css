@@ -1,0 +1,101 @@
+.serviceCardTitle {
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 40px;
+  color: white;
+}
+
+.cardBgColor {
+  transform: translateY(30px);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0px 0px 18px 11px rgba(0, 0, 0, 0.25);
+  background-color: #000000;
+  background-image: linear-gradient(315deg, #000000 0%, #414141 74%);
+}
+
+.btnsBox {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 30px 0 20px;
+  padding: 0 10px;
+}
+
+.sectionTitle {
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 38px;
+  text-align: center;
+}
+
+.singleProdContainer {
+  padding-left: 10px;
+  padding-right: 10px;
+  cursor: pointer;
+}
+
+.singleProd {
+  max-width: 255px;
+  transition: 0.3s;
+}
+
+.descContainer {
+  opacity: 1;
+  transition: 0.3s;
+}
+
+.productDesc {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.prodPrice {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+  color: rgba(0, 154, 76, 1);
+}
+
+.cartBtns {
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+  opacity: 0;
+  transform: rotateX(45deg);
+  transition: all 0.3s;
+}
+
+.searchImgContainer {
+  position: absolute;
+  top: 30%;
+  left: 45%;
+  transform: translate(-80%, -50%);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.3s;
+}
+
+.singleProdContainer:hover {
+  box-shadow: 0px 0px 21px 6px rgba(0, 0, 0, 0.25);
+  border-radius: 11px;
+}
+
+.singleProdContainer:hover .descContainer {
+  opacity: 0;
+}
+
+.singleProdContainer:hover .cartBtns {
+  transform: rotateX(0deg);
+  opacity: 1;
+}
+.singleProdContainer:hover .searchImgContainer {
+  transform: translateY(0px);
+  opacity: 1;
+}
