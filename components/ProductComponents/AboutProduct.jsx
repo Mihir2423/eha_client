@@ -18,14 +18,16 @@ const nova_thai_600 = localFont({
   display: "swap",
 });
 const AboutProduct = ({ data }) => {
+  const [available,setAvailable]=React.useState(false);
   const [pin, setPin] = React.useState("208011");
-  const pincodeCheck = async () => {
-    console.log(pin.length);
-    const response = await checkPincode(pin);
-    if (response) {
-      alert("Delivery available");
-    } else {
-      alert("Delivery not available");
+  const pincodeCheck = async (value) => {
+    console.log(setPin);
+    const response = await checkPincode(value);
+    if(response){
+      setAvailable(true);
+      setPin(value)
+    }else{
+      setAvailable(false);
     }
   };
 
@@ -81,21 +83,24 @@ const AboutProduct = ({ data }) => {
               DELIVERY
             </Typography>
             <TextField
-              onChange={(e) => setPin(e.target.value)}
+             maxlength={6}
+              onChange={(e)=>pincodeCheck(e.target.value)}
               id="standard-basic"
               placeholder="Pincode"
               variant="standard"
+              inputProps={{ maxLength: 6 }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <LocationOnIcon style={{ color: "#EA1D25" }} />
+                    <LocationOnIcon style={{ color: available ? "green":"red" }} />
                   </InputAdornment>
                 ),
                 endAdornment: (
                   <InputAdornment
                     position="start"
-                    onClick={pincodeCheck}
-                    className="mb-2 "
+                    onClick={() => pincodeCheck(pin)}
+                    className="mb-2 " 
+                    
                   >
                     <Typography
                       variant="span"
@@ -108,7 +113,11 @@ const AboutProduct = ({ data }) => {
                 ),
               }}
             />
+           
           </div>
+          {
+                 available ? <h1 className="text-[#319F43] font-mono text-start ml-40"> Delivery Available </h1> : <h1 className="text-red-500 font-mono text-start ml-40 "> Delivery Not Available </h1>
+              }
         </div>
         <div
           className={`border-l-2 border-r-2 h-[250px] border-gray-300 py-8 px-5`}

@@ -18,7 +18,7 @@ const ProductDetail = ({ product }) => {
   return (
     <>
       <Box
-        className={`flex flex-col bg-white gap-[13px] md:flex-row w-screen px-4 py-16 md:pr-16 justify-center text-black`}
+        className={`flex flex-col bg-white gap-[13px] md:flex-row  px-4 py-16 md:pr-16 justify-center text-black`}
       >
         <Box className={`md:w-1/2`}>
           <ProductImage data={product?.data} />
