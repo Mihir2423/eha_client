@@ -9,6 +9,7 @@ import { ReduxProvider } from "@/redux/provider";
 import { CartProvider } from "react-use-cart";
 import { SessionProvider } from "next-auth/react";
 import Footer from "@/components/footer/footer";
+import NextTopLoader from 'nextjs-toploader';
 
 export default function App({ Component, pageProps, session }) {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -23,6 +24,7 @@ export default function App({ Component, pageProps, session }) {
       <CartProvider>
         <ReduxProvider>
           <ApolloProvider client={apolloClient}>
+          <NextTopLoader />
             <Header />
             <Box
               component="main"
@@ -33,6 +35,7 @@ export default function App({ Component, pageProps, session }) {
                 backgroundColor: isMobile ? "#EEEEEE" : "white",
               }}
             >
+              
               <DrawerHeader />
               <Component {...pageProps} />
             </Box>

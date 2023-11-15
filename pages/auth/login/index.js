@@ -3,6 +3,7 @@ import { Box, Container } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import Background from "@/components/background";
+import NextTopLoader from 'nextjs-toploader';
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,9 @@ const LoginPage = () => {
     }
   }, [dispatch]);
   return (
+    
     <>
+     <NextTopLoader />
       {/* <Background className="-z-50"/> */}
       <div
         style={{ overflow: "hidden", transform: "translateY(-0px) " }}
