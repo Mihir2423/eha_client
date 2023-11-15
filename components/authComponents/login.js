@@ -8,7 +8,7 @@ import Image from "next/image";
 import { useMutation, gql } from "@apollo/client";
 import { LOGIN, FORGOT_PASSWORD } from "../../gqloperation/mutation";
 import Background from "../background";
-
+import NextTopLoader from 'nextjs-toploader';
 
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
@@ -31,12 +31,6 @@ const Login = () => {
     identifier: "",
     password: "",
   };
-  if(loading) return (
-    <div className="w-full flex items-center justify-center">
-      <Loading />
-    </div>
-  );
-
   const validationSchema = Yup.object().shape({
     identifier: Yup.string().required("identifier is required"),
     password: Yup.string().required("Password is required"),
@@ -69,6 +63,7 @@ const Login = () => {
     >
       {({ handleSubmit }) => ( 
         <Form>
+          {loading && <NextTopLoader/>}
         <div
         className={`flex items-center mt-5 ${nova_thai.className} mx-0 md:w-[50vw] `}
         
