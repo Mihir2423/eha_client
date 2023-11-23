@@ -1,14 +1,14 @@
-import "../../styles/globals.css";
+import "../styles/globals.css";
 import { ApolloProvider } from "@apollo/client";
 import apolloClient from "../lib/apollo";
 import Head from "next/head";
-import Header from "@/components/NavbarComponent/Header";
-import { DrawerHeader } from "@/components/NavbarComponent/DrawerHeader";
+import Header from "../components/NavbarComponent/Header";
+import { DrawerHeader } from "../components/NavbarComponent/DrawerHeader";
 import { Box, useMediaQuery } from "@mui/material";
-import { ReduxProvider } from "@/redux/provider";
+import { ReduxProvider } from "../redux/provider";
 import { CartProvider } from "react-use-cart";
 import { SessionProvider } from "next-auth/react";
-import Footer from "@/components/footer/footer";
+import Footer from "../components/footer/footer";
 import NextTopLoader from 'nextjs-toploader';
 
 export default function App({ Component, pageProps, session }) {
