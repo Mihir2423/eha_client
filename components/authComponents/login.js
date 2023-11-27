@@ -12,11 +12,11 @@ import NextTopLoader from 'nextjs-toploader';
 
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { getToken } from "@/redux/features/userSlice";
+// import { getToken } from "@/redux/features/userSlice";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
-import Loading from "@/utils/loading";
-import { preventDefault } from "ol/events/Event";
+// import Loading from "@/utils/loading";
+// import { preventDefault } from "ol/events/Event";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -94,7 +94,7 @@ const Login = () => {
                         className={`mb-4 text-sm text-red-500 text-right ${nova_thai.className}`}
                         onClick={() => router.push("/auth/signup")}
                       >
-                        SIGNIN
+                        SIGN UP
                       </button>
                     </div>
 

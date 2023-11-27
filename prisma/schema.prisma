@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 Int      @id @default(autoincrement())
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  username           String
+  email              String   @unique
+  provider           String
+  password           String
+  resetPasswordToken String
+  confirmationToken  String
+  confirmed          Boolean
+  blocked            Boolean
+  phone              BigInt
+  role               String
+  orders             Order[]
+}
+
+model Profile {
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  firstName    String
+  lastName     String
+  gender       Gender
+  dateOfBirth  DateTime
+  age          Int?
+  phoneNumber  BigInt
+  landlineNo   String
+  profileImage String
+  email        String
+  address      Json
+  userAddress  Json
+}
+
+model Product {
+  id            Int        @id @default(autoincrement())
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  name          String
+  price         Int
+  image         String
+  description   String
+  slug          String     @unique
+  thubnail      String
+  originalPrice Int
+  Brand         String
+  rating        Int
+  categories    Category[]
+}
+
+model Order {
+  id              Int      @id @default(autoincrement())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  city            String
+  state           String
+  shippingAddress String
+  amount          Int
+  items           Json
+  pin             Int
+  user            User     @relation(fields: [userId], references: [id])
+  userId          Int
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  name      String
+  slug      String    @unique
+  products  Product[]
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
