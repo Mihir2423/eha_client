@@ -16,14 +16,14 @@ model User {
   updatedAt          DateTime @updatedAt
   username           String
   email              String   @unique
-  provider           String
+  provider           String?
   password           String
-  resetPasswordToken String
-  confirmationToken  String
-  confirmed          Boolean
-  blocked            Boolean
+  resetPasswordToken String?
+  confirmationToken  String?
+  confirmed          Boolean?
+  blocked            Boolean?
   phone              BigInt
-  role               String
+  role               String?
   orders             Order[]
 }
 

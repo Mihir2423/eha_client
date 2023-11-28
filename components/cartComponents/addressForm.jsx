@@ -28,35 +28,56 @@ const AddressForm = ({ nextStep, prevStep }) => {
   };
 
   // Handle form submission
+  // const onSubmit = async (values) => {
+  //   // Handle form submission logic here
+  //   console.log(values);
+  //   try {
+  //     const apiUrl = `${process.env.NEXT_PUBLIC_NEXT_API_PUBLIC_URL}/api/profiles/${profileId}`;
+  //     const payload = {
+  //       data: {
+  //         userAddress: {
+  //           values,
+  //         },
+  //       },
+  //     };
+
+  //     const headers = {
+  //       Authorization: `Bearer ${session?.jwt}`,
+  //     };
+
+  //     const response = await axios.put(apiUrl, payload, { headers });
+  //     console.log(response?.data?.data?.attributes, "response");
+
+  //     // Handle the response as needed
+  //     dispatch(setDetails(response.data?.data?.attributes));
+  //   } catch (error) {
+  //     console.error("API error:", error);
+  //   }
+
+  //   setAdd(false);
+  // };
+
   const onSubmit = async (values) => {
-    // Handle form submission logic here
-    console.log(values);
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_NEXT_API_PUBLIC_URL}/api/profiles/${profileId}`;
-      const payload = {
-        data: {
-          userAddress: {
-            values,
-          },
+      const response = await fetch('/api/submit-address', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      };
-
-      const headers = {
-        Authorization: `Bearer ${session?.jwt}`,
-      };
-
-      const response = await axios.put(apiUrl, payload, { headers });
-      console.log(response?.data?.data?.attributes, "response");
-
-      // Handle the response as needed
-      dispatch(setDetails(response.data?.data?.attributes));
+        body: JSON.stringify(values),
+      });
+  
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log('Address submitted successfully:', responseData);
+        // Additional logic if needed
+      } else {
+        console.error('Failed to submit address:', response.statusText);
+      }
     } catch (error) {
-      console.error("API error:", error);
+      console.error('API request error:', error);
     }
-
-    setAdd(false);
   };
-
   return (
     <center>
       <div className={`md:w-[900px] relative  bg-white text-black px-[80px] py-5 rounded-2xl  shadow-2xl ${nova_thai.className} text-left `}>
