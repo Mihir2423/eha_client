@@ -14,14 +14,14 @@ import Image from "next/image";
 const InfoForm = ({ setTakeInput, takeInput, ProfileId }) => {
   const [loading, setLoading] = React.useState(false);
   const [formData, setFormData] = React.useState({
-    firstName,
-    lastName,
-    gender,
-    dateOfBirth,
-    email,
-    phoneNo,
-    landlineNo,
-    age
+    firstName:'',
+    lastName:'',
+    gender:'',
+    dateOfBirth:'',
+    email:'',
+    phoneNo:'',
+    landlineNo:'',
+    age:''
   })
   const userDetails = useSelector((state) => state.user.userDetails.details);
   const dispatch = useDispatch();

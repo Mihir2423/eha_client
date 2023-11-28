@@ -4,14 +4,33 @@ import Title from "./Title";
 import AllProducts from "./DealsForYou/AllProducts";
 import SmallTitle from "./SmallTitle";
 import { useRouter } from "next/router";
+import axios from "axios";
+;
+
 
 const BestSeller = ({ posts }) => {
   const router = useRouter()
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isSmallMobile = useMediaQuery("(max-width: 568px)");
-
+  const [productsData, setProductsData] = React.useState([])
   let content;
-  const productsData = posts || [];
+  // const productsData = posts || [];
+
+  
+
+  React.useEffect(() => {
+    const fetchProductData = async () => {
+    const response = await axios.get('/api/products')
+    if(response.data){
+      console.log(response)
+      console.log("response:",response.data?.[0].price)
+      setProductsData(response.data)
+
+    }
+  }
+    fetchProductData()
+  }, [])
+
   content = !isMobile ? (
     <AllProducts totalslides={5} data={productsData} />
   ) : (

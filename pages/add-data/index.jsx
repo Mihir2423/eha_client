@@ -1,8 +1,9 @@
+"use client";
 import axios from "axios";
 import React from "react";
 
 const styles ={
-  container:`min-h-[90vh] flex flex-col items-center justify-center bg-gray-50`,
+  container:`pt-96 flex flex-col items-center justify-center bg-gray-50`,
   button:`w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600`,
   form:`bg-white p-8 rounded shadow-md max-w-md w-full`,
   label:`block text-sm font-medium text-gray-600`,
@@ -40,7 +41,7 @@ const handleSubmit = async (e) => {
   };
   
   return (
-    <div className={styles.container}>
+    <div className="" >
       <form action="" onSubmit={handleSubmit} method="post" >
 
         <div>

@@ -4,61 +4,85 @@ import * as Yup from "yup";
 import { nova_thai } from "../../utilities/font";
 import Image from "next/image";
 import { useMutation } from "@apollo/client";
-import { SIGNUP } from "../../gqloperation/mutation";
+// import { SIGNUP } from "../../gqloperation/mutation";
 import SignImg from "../../assets/sign-img.jpg";
 import { Alert, Snackbar, useMediaQuery } from "@mui/material";
-import { Router } from "next/router";
+import { useRouter } from "next/router";
 import Link from "next/link";
+import axios from "axios";
+
 
 const Signup = () => {
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(null);
   const isMobile = useMediaQuery("(max-width: 768px)");
-
+  const router = useRouter();
   // const [signupUser, { loading }] = useMutation(SIGNUP);
-  const [signupUser, { loading }] = useMutation(SIGNUP, {
-    variables: {
-      input: values,
-    },
-    context: {
-      fetchOptions: {
-        uri: '/api/signup',
-      },
-    },
+  const [formData, setFormData] = React.useState({
+    username: "",
+    email: "",
+    password: "",
+    phone:""
   });
   const initialValues = {
     username: "",
     email: "",
     password: "",
+    phone:"",
   };
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("username is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string().required("Password is required"),
+    phone: Yup.string().required("Phone is required"),
   });
 
-  const handleSubmit = async (values, { setSubmitting }) => {
+  // const handleSubmit = async (values, { setSubmitting }) => {
+  //   try {
+  //     const { data } = await signupUser({
+  //       variables: {
+  //         input: values,
+  //       },
+  //     });
+  //     setSuccess(true);
+  //     setSubmitting(false);
+  //     localStorage.setItem("token", data.register.jwt);
+  //     router.push("/auth/login")
+  //   } catch (errors) {
+  //     setError(errors.message|| errors.graphQLErrors[0].message|| "Something went wrong");
+  //     setSubmitting(false);
+  //   }
+  // };
+
+
+  const handleSubmit = async (e) => {
+    // e.preventDefault();
+
     try {
-      const { data } = await signupUser({
-        variables: {
-          input: values,
-        },
-      });
-      setSuccess(true);
-      setSubmitting(false);
-      localStorage.setItem("token", data.register.jwt);
-      Router.push("/auth/login")
-    } catch (errors) {
-      setError(errors.message|| errors.graphQLErrors[0].message|| "Something went wrong");
-      setSubmitting(false);
+      const response = await axios.post('/api/signup', formData); // Add 'await' here
+      console.log(response);
+
+      if (response.status == 200 || response.status == 201) {
+        setSuccess(true);
+        setFormData({
+          username: "",
+          email: "",
+          password: "",
+          phone: "",
+        });
+        router.push("/auth/login");
+      } else {
+        setError("Something went wrong", response.status);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
-
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={validationSchema}
+      // validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
       {({ isSubmitting }) => (
@@ -100,6 +124,8 @@ const Signup = () => {
                         name="username"
                         className="w-full px-1 my-4 border-b-2 focus:border-b-4 focus:outline-none opacity-80 text-neutral-700 text-base font-normal"
                         placeholder="Username"
+                        value={formData.username}
+                        onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                       />
                       <ErrorMessage name="username" component="div" className="text-red-500 text-sm" />
                     </div>
@@ -109,15 +135,31 @@ const Signup = () => {
                         name="email"
                         className="w-full px-1 my-4 border-b-2 focus:border-b-4 focus:outline-none opacity-80 text-neutral-700 text-base font-normal"
                         placeholder="Email"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       />
                       <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
                     </div>
                     <div>
                       <Field
+                        type="text"
+                        name="phone"
+                        className="w-full px-1 my-4 border-b-2 focus:border-b-4 focus:outline-none opacity-80 text-neutral-700 text-base font-normal"
+                        placeholder="Phone"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      />
+                      <ErrorMessage name="phone" component="div" className="text-red-500 text-sm" />
+                    </div>
+                    <div>
+                      <Field
                         type="password"
                         name="password"
+
                         className="w-full px-1 my-4  border-b-2 focus:border-b-4 focus:outline-none fopacity-80 text-neutral-700 text-base font-normal"
                         placeholder="Password"
+                        value={formData.password}
+                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                       />
                       <ErrorMessage name="password" component="div" className="text-red-500 text-sm" />
                     </div>

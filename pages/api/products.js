@@ -1,14 +1,15 @@
+import { PrismaClient } from "@prisma/client";
 
+const prisma = new PrismaClient();
 export default async function handler(req, res) {
-  try {
-    const apiRes = await fetch(`${process.env.NEXT_PUBLIC_NEXT_API_PUBLIC_URL}/api/products?populate=*`);
-    const apiData = await apiRes.json();
-    
-    const filteredItems = apiData?.data
-
-    res.status(200).json({ filteredItems });
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    res.status(500).json({ error: "Error fetching products" });
+  if(req.method === 'GET'){
+    try {
+      const product = await prisma.Product.findMany();
+      res.status(200).json(product);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
   }
+ 
 }
