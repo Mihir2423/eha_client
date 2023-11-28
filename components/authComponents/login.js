@@ -31,6 +31,16 @@ const Login = () => {
     identifier: "",
     password: "",
   };
+
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch('/api/users');
+      const users = await response.json();
+      console.log(users);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
   const validationSchema = Yup.object().shape({
     identifier: Yup.string().required("identifier is required"),
     password: Yup.string().required("Password is required"),

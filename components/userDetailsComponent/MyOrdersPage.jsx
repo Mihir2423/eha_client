@@ -1,4 +1,4 @@
-import { Box, Grid, useMediaQuery } from "@mui/material";
+import { Box, Grid, useMediaQuery } from "@mui/material"; //done
 import React from "react";
 import ProfileCard from "./ProfileComponents/ProfileCard";
 import ProfileRoutes from "./ProfileComponents/ProfileRoutes";

@@ -13,8 +13,16 @@ import Image from "next/image";
 
 const InfoForm = ({ setTakeInput, takeInput, ProfileId }) => {
   const [loading, setLoading] = React.useState(false);
-
-
+  const [formData, setFormData] = React.useState({
+    firstName,
+    lastName,
+    gender,
+    dateOfBirth,
+    email,
+    phoneNo,
+    landlineNo,
+    age
+  })
   const userDetails = useSelector((state) => state.user.userDetails.details);
   const dispatch = useDispatch();
   const { data: session } = useSession();
@@ -69,6 +77,7 @@ const InfoForm = ({ setTakeInput, takeInput, ProfileId }) => {
       dispatch(setDetails(response?.data?.data?.attributes));
       setTakeInput(false);
       console.log("API response:", response.data);
+      setFormData(response.data)
     } catch (error) {
       console.error("API error:", error);
     }

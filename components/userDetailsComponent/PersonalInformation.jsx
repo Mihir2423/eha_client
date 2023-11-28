@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid,useMediaQuery } from "@mui/material";   //done review
 import React from "react";
 import ProfileCard from "./ProfileComponents/ProfileCard";
 import ProfileRoutes from "./ProfileComponents/ProfileRoutes";
@@ -6,7 +6,6 @@ import InfoForm from "./ProfileComponents/InfoForm";
 
 import InfoNotFound from "./ProfileComponents/getpersonalinfo";
 import {  useSelector } from "react-redux";
-import { useMediaQuery } from "@mui/material";
 
 
 const PersonalInformation = ({profile,ProfileId}) => {

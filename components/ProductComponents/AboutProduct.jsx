@@ -126,7 +126,7 @@ const AboutProduct = ({ data }) => {
             className={`text-[#0c0c0c] text-[20px] line-height-8  ${nova_thai_600}`}
             style={{ fontSize: "20px", lineHeight: "32px", fontWeight: 600 }}
           >
-            {data?.attributes?.description.replace(/\n/g, "\n\n")}
+            {data?.attributes?.description?.replace(/\n/g, "\n\n")}
           </ReactMarkdown>
         </div>
       </div>

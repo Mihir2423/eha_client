@@ -15,7 +15,17 @@ const Signup = () => {
   const [error, setError] = React.useState(null);
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  const [signupUser, { loading }] = useMutation(SIGNUP);
+  // const [signupUser, { loading }] = useMutation(SIGNUP);
+  const [signupUser, { loading }] = useMutation(SIGNUP, {
+    variables: {
+      input: values,
+    },
+    context: {
+      fetchOptions: {
+        uri: '/api/signup',
+      },
+    },
+  });
   const initialValues = {
     username: "",
     email: "",
