@@ -57,7 +57,7 @@ const ProfileCard = ({ edit, setTakeInput, takeInput }) => {
         </Box>
       </Box>
       <h1 className={`text-[25px]`}>
-        Hi, {"Not found"}
+        Hi, {userDetails?.email}
       </h1>
       <p className={`text-[14px] text-[#464646]`}>
         {"Not Found"}

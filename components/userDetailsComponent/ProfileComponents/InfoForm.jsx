@@ -55,7 +55,7 @@ const InfoForm = ({ setTakeInput, takeInput, ProfileId }) => {
     console.log(values);
     setLoading(true);
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_NEXT_API_PUBLIC_URL}/api/profiles/${ProfileId}`;
+      const apiUrl = `/api/profiles/`;
       const payload = {
         data: {
           firstName: values?.firstName,

@@ -27,30 +27,30 @@ const Home = ({ posts, filteredItems }) => {
 
 export default Home;
 
-export async function getServerSideProps(context) {
-  try {
-    const [postsRes, filteredItemsRes] = await Promise.all([
-      fetch(
-        `/api/products`
-      ),
-      fetch(`/api/products`),
-    ]);
+// export async function getServerSideProps(context) {
+//   try {
+//     const [postsRes, filteredItemsRes] = await Promise.all([
+//       fetch(
+//         `/api/products`
+//       ),
+//       fetch(`/api/products`),
+//     ]);
 
-    const posts = await postsRes.json();
-    const { filteredItems } = await filteredItemsRes.json();
-    return {
-      props: {
-        posts,
-        filteredItems,
-      },
-    };
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    return {
-      props: {
-        posts: [],
-        filteredItems: [],
-      },
-    };
-  }
-}
+//     const posts = await postsRes.json();
+//     const { filteredItems } = await filteredItemsRes.json();
+//     return {
+//       props: {
+//         posts,
+//         filteredItems,
+//       },
+//     };
+//   } catch (error) {
+//     console.error("Error fetching products:", error);
+//     return {
+//       props: {
+//         posts: [],
+//         filteredItems: [],
+//       },
+//     };
+//   }
+// }

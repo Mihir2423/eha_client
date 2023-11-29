@@ -6,6 +6,7 @@ import InfoForm from "./ProfileComponents/InfoForm";
 
 import InfoNotFound from "./ProfileComponents/getpersonalinfo";
 import {  useSelector } from "react-redux";
+import { useSession } from "next-auth/react";
 
 
 const PersonalInformation = ({profile,ProfileId}) => {
@@ -13,8 +14,9 @@ const PersonalInformation = ({profile,ProfileId}) => {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const [takeInput, setTakeInput] = React.useState(false);
-
-  const userDetails = useSelector((state) => state?.user?.userDetails?.details);
+const {data:session, status} = useSession()
+  const userDetails = session?.user
+  // const userDetails = useSelector((state) => state?.user?.userDetails?.details);
 
   return (
     <Grid   className="md:px-16 px-4 items-center justify-center md:justify-none">
