@@ -22,8 +22,8 @@ const BestSeller = ({ posts }) => {
     const fetchProductData = async () => {
     const response = await axios.get('/api/products')
     if(response.data){
-      console.log(response)
-      console.log("response:",response.data?.[0].price)
+      // console.log(response)
+      // console.log("response:",response.data?.[0].price)
       setProductsData(response.data)
 
     }

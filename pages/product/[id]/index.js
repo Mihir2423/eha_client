@@ -27,7 +27,7 @@ export async function getServerSideProps(context) {
   try {
     const { id } = context.query;
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_NEXT_API_PUBLIC_URL}/api/products/${id}?populate=*`
+      `/api/products/${id}?populate=*`
     );
     const product = await res.json();
     return {

@@ -4,9 +4,14 @@ import { nova_thai } from "@/utilities/font";
 import editIconSvg from "../../../assets/svg/editIconSvg.svg";
 import Image from "next/image";
 import { useSelector } from "react-redux";
+import { useSession } from "next-auth/react";
 
 const ProfileCard = ({ edit, setTakeInput, takeInput }) => {
-  const userDetails = useSelector((state) => state.user.userDetails.details);
+  // const userDetails = useSelector((state) => state.user.userDetails.details);
+
+  const {data:session, status} = useSession()
+  console.log(session?.user.email)
+  const userDetails = session?.user
   return userDetails?.length < 0 ?  (
     <Box
       className={`${nova_thai.className} flex flex-col justify-center rounded-[8px] text-center py-6 pt-[2px] relative bg-white`}

@@ -10,6 +10,7 @@ import { CartProvider } from "react-use-cart";
 import { SessionProvider } from "next-auth/react";
 import Footer from "../components/footer/footer";
 import NextTopLoader from 'nextjs-toploader';
+import Provider from "@/context/AuthContext";
 
 export default function App({ Component, pageProps, session }) {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -20,7 +21,7 @@ export default function App({ Component, pageProps, session }) {
     />
   </Head>;
   return (
-    <SessionProvider session={session}>
+    <Provider>
       <CartProvider>
         <ReduxProvider>
           <ApolloProvider client={apolloClient}>
@@ -43,6 +44,6 @@ export default function App({ Component, pageProps, session }) {
           </ApolloProvider>
         </ReduxProvider>
       </CartProvider>
-    </SessionProvider>
+    </Provider>
   );
 }

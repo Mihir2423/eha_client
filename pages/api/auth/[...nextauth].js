@@ -1,64 +1,19 @@
-// // import { signIn } from "@/services/signin";
-// import { signIn } from "next-auth/react";
-// import NextAuth from "next-auth";
-// import CredentialsProvider from "next-auth/providers/credentials";
-
-// export default NextAuth({
-//   // Configure one or more authentication providers
-//   providers: [
-//     CredentialsProvider({
-//       name: "Sign in with Email",
-//       credentials: {
-//         username: { label: "Email", type: "text" },
-//         password: { label: "Password", type: "password" },
-//       },
-//       async authorize(credentials, req) {
-//         if (credentials == null) return null;
-//         try {
-//           const { user, jwt } = await signIn({
-//             username: credentials.username,
-//             password: credentials.password,
-//           });
-//           return { ...user, jwt };
-//         } catch (error) {
-//           return null;
-//         }
-//       },
-//     }),
-//   ],
-//   callbacks: {
-//     session: async ({ session, token }) => {
-//       session.id = token.id;
-//       session.jwt = token.jwt;
-//       return Promise.resolve(session);
-//     },
-//     jwt: async ({ token, user }) => {
-//       const isSignIn = user ? true : false;
-//       if (isSignIn) {
-//         token.id = user.id;
-//         token.jwt = user.jwt;
-//       }
-//       return Promise.resolve(token);
-//     },
-//   },
-// });
-
-// Compare this snippet from pages/api/signup/index.js:
-import { PrismaClient } from "@prisma/client";
 import NextAuth from "next-auth/next";
-import CredentialsProvider from "next-auth/providers/credentials"; // Correct import
+import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
+// import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
 const authorize = async (credentials) => {
   // const { email, password } = credentials;
 
-  if (!credentials.email ) {
+  if (!credentials.email || !credentials.password) {
     throw new Error("Please enter email and password");
   }
 
-  const user = await prisma.user.findUnique({
+  const user = await prisma.User.findUnique({
     where: {
       email: credentials.email,
     },
@@ -71,23 +26,44 @@ const authorize = async (credentials) => {
   return user;
 };
 
-const handleSession = async (session, user) => {
-  const userData = await prisma.user.findUnique({
-    where: {
-      email: session.user.email,
-    },
-    select: {
-      email: true,
-      username: true,
-      phone: true,
-    },
-  });
+const handleSession = async ({ session }) => {
+  try {
+    console.log("session", session);
 
-  return {
-    ...session,
-    user: { ...session.user, ...userData },
-  };
-};
+    const email = session?.user.email;
+    if (!email) {
+      console.error("email not found in session:", session);
+      throw new Error("email not found.");
+    }
+
+    const userData = await prisma.User.findUnique({
+      where: {
+        email:email,
+      },
+    });
+
+    if (!userData) {
+      console.error("No user found");
+      throw new Error("No user found");
+    }
+
+    return {
+      ...session,
+      user: {
+        ...session.user,
+        id: userData.id,
+        name: userData.name,
+        email: userData.email,
+        phone: userData.phone,
+        
+      },
+    };
+
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+}
 
 const authOptions = {
   providers: [
@@ -108,6 +84,11 @@ const authOptions = {
   debug: process.env.NODE_ENV !== "production",
   callbacks: {
     session: handleSession,
+    jwt: async ({ token, user }) => ({
+      ...token,
+      email: user?.email,
+      name: user?.name,
+    }),
   },
 };
 

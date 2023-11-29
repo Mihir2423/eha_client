@@ -22,7 +22,7 @@ model User {
   confirmationToken  String?
   confirmed          Boolean?
   blocked            Boolean?
-  phone              BigInt
+  phone              String?
   role               String?
   orders             Order[]
   profile            Profile[] 
@@ -40,10 +40,10 @@ model Profile {
   phoneNumber  BigInt
   landlineNo   String
   profileImage String
-  email        String 
+  email        String
   address      Json
   userAddress  Json
-  user         User[]  
+  user         User[]
   userId       Int
 }
 

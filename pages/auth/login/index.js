@@ -6,18 +6,18 @@ import Background from "@/components/background";
 import NextTopLoader from 'nextjs-toploader';
 
 const LoginPage = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    try {
-      const token = window.localStorage.getItem("token");
-      if (typeof token === "string") {
-        dispatch(getToken(token));
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }, [dispatch]);
+  // React.useEffect(() => {
+  //   try {
+  //     const token = window.localStorage.getItem("token");
+  //     if (typeof token === "string") {
+  //       dispatch(getToken(token));
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }, [dispatch]);
   return (
     
     <>
