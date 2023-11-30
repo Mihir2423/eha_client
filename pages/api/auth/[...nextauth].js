@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 const authorize = async (credentials) => {
-  console.log("Credentials:", credentials);
+  // console.log("Credentials:", credentials);
 
   if (!credentials.email || !credentials.password) {
     throw new Error("Please enter email and password");
@@ -36,7 +36,8 @@ const authorize = async (credentials) => {
 //   try {
 //     console.log("session", session);
 
-//     const email = user?.email;
+//     const email = user?.email || session?.user?.email;
+
 //     if (!email) {
 //       console.error("email not found in session:", session);
 //       throw new Error("email not found.");
@@ -44,13 +45,13 @@ const authorize = async (credentials) => {
 
 //     const userData = await prisma.User.findUnique({
 //       where: {
-//         email,
+//         email: email,
 //       },
 //       select: {
 //         id: true,
-//         name: true,
 //         email: true,
 //         phone: true,
+//         profile:true,
 //       },
 //     });
 
@@ -64,9 +65,9 @@ const authorize = async (credentials) => {
 //       user: {
 //         ...session.user,
 //         id: userData.id,
-//         name: userData.name,
 //         email: userData.email,
 //         phone: userData.phone,
+//         profile:userData.profile,
 //       },
 //     };
 //   } catch (error) {
@@ -76,45 +77,26 @@ const authorize = async (credentials) => {
 // };
 
 const handleSession = async ({ session, user }) => {
-  try {
-    console.log("session", session);
-
-    const email = user?.email || session?.user?.email;
-    if (!email) {
-      console.error("email not found in session:", session);
-      throw new Error("email not found.");
+  const userData = await prisma.User.findUnique({
+    where: { email: session.user.email },
+    select: {
+      
+      email: true,
+      phone: true,
+      profile:true,
     }
+  });
 
-    const userData = await prisma.User.findUnique({
-      where: {
-        email,
-      },
-      select: {
-        id: true,
-        email: true,
-        phone: true,
-      },
-    });
-
-    if (!userData) {
-      console.error("No user found");
-      throw new Error("No user found");
+  return {
+    ...session,
+    user: {
+      ...session.user,
+      email: userData.email,
+      phone: userData.phone,
+      profile:userData.profile,
+      
     }
-
-    return {
-      ...session,
-      user: {
-        ...session.user,
-        id: userData.id,
-        
-        email: userData.email,
-        phone: userData.phone,
-      },
-    };
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-    throw error;
-  }
+  };
 };
 
 
@@ -139,7 +121,6 @@ const authOptions = {
     jwt: async ({ token, user }) => ({
       ...token,
       email: user?.email,
-     
       phone: user?.phone,
       id: user?.id,
     }),

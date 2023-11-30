@@ -1,45 +1,51 @@
-import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+// seed.js
+const { PrismaClient } =  require('@prisma/client');
+
+const bcrypt = require('bcrypt')
+
 const prisma = new PrismaClient();
 
-async function main() {
-  const encryptedPassword = await bcrypt.hash("password1234", 12);
-  await prisma.user.upsert({
-    where: { email: "a@a.com" },
-    update: {},
-    create: {
-      email: "a@a.com",
-      name: "Alice",
-      password: encryptedPassword,
-    },
-  });
+const seedDatabase = async () => {
 
-  await prisma.user.upsert({
-    where: { email: "b@b.com" },
-    update: {},
-    create: {
-      email: "b@b.com",
-      name: "Bob",
-      password: encryptedPassword,
-    },
-  });
+  try {
+    // Seed users
+    const user1 = await prisma.user.create({
+      data: {
+        username: 'cam',
+        email: 'c@c.com',
+        password: await bcrypt.hash('password123',10) , //password123
+      },
+    });
 
-  await prisma.user.upsert({
-    where: { email: "c@c.com" },
-    update: {},
-    create: {
-      email: "c@c.com",
-      name: "Carla",
-      password: encryptedPassword,
-    },
-  });
-}
+    
 
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+    // Seed profiles
+    await prisma.profile.create({
+      data: {
+        firstName: 'John',
+        lastName: 'Doe',
+        gender: 'MALE',
+        dateOfBirth: new Date('1990-01-01'),
+        phoneNumber: 1234567890,
+        id: user1.id,
+        email: user1.email,
+        landlineNo: "1234567890",
+        address: "1234 Main St",
+        
+        userAddress: '1234 Main St',
+
+      },
+    });
+
+    
+    // Seed other entities (products, orders, categories, etc.) if needed
+
+    console.log('Database seeded successfully!');
+  } catch (error) {
+    console.error('Error seeding database:', error);
+  } finally {
+    await prisma.$disconnect(); // Disconnect Prisma client after seeding
+  }
+};
+
+seedDatabase();

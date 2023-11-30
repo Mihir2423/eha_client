@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,12 +7,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Account {
+  id                Int     @id @default(autoincrement())
+  userId            Int     @map("userId")
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           Int      @id @default(autoincrement())
+  sessionToken String?  @unique
+  userId       Int   
+  expires      DateTime
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model User {
-  id                 Int      @id @default(autoincrement())
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  id                 Int       @id @default(autoincrement()) 
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime? @updatedAt
   username           String
-  email              String   @unique 
+  email              String    @unique
+  role               String    @default("user")
   provider           String?
   password           String
   resetPasswordToken String?
@@ -23,67 +48,78 @@ model User {
   confirmed          Boolean?
   blocked            Boolean?
   phone              String?
-  role               String?
-  orders             Order[]
-  profile            Profile[] 
+  accounts           Account[]
+  orders             Order[]   @relation("OrderToUser")
+  profile            Profile[] @relation("ProfileToUser")
+  products           Product[] @relation("ProductToUser")
+  Session            Session[]
 }
 
 model Profile {
   id           Int      @id @default(autoincrement())
   createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  updatedAt    DateTime? @updatedAt
   firstName    String
   lastName     String
   gender       Gender
   dateOfBirth  DateTime
-  age          Int?
+  age          String?
   phoneNumber  BigInt
-  landlineNo   String
-  profileImage String
-  email        String
+  landlineNo   BigInt?
+  profileImage String?
   address      Json
   userAddress  Json
-  user         User[]
-  userId       Int
+  userId       Int?   @map("userId")
+  user User? @relation("ProfileToUser", fields: [userId], references: [id], onDelete: Cascade)
+  email        String   @unique @map("email")
 }
 
 model Product {
   id            Int        @id @default(autoincrement())
-  createdAt     DateTime?  @default(now())
+  createdAt     DateTime   @default(now())
   updatedAt     DateTime?   @updatedAt
   name          String
   price         Int
   image         String
   description   String
   slug          String     @unique
-  thumbnail      String
+  thumbnail     String
   originalPrice Int
   Brand         String
   rating        Int
   categories    Category[]
+  orders        Order[]
+  user User? @relation(name: "ProductToUser", fields: [userId], references: [id], onDelete: Cascade)
+  userId        Int?       @map("userId")
 }
 
 model Order {
   id              Int      @id @default(autoincrement())
   createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  updatedAt       DateTime? @updatedAt
   city            String
   state           String
   shippingAddress String
   amount          Int
   items           Json
   pin             Int
-  user            User     @relation(fields: [userId], references: [id])
   userId          Int
+  category        Category @relation(fields: [categoryId], references: [id])
+  categoryId      Int
+  product         Product @relation(fields: [productId], references: [id])
+  productId       Int
+  user User @relation(name: "OrderToUser", fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Category {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  updatedAt DateTime?  @updatedAt
   name      String
   slug      String    @unique
+
   products  Product[]
+  orders    Order[]
 }
 
 enum Gender {

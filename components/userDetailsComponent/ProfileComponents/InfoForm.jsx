@@ -23,9 +23,10 @@ const InfoForm = ({ setTakeInput, takeInput, ProfileId }) => {
     landlineNo:'',
     age:''
   })
-  const userDetails = useSelector((state) => state.user.userDetails.details);
+  // const userDetails = useSelector((state) => state.user.userDetails.details);
   const dispatch = useDispatch();
   const { data: session } = useSession();
+  const userDetails = session?.user
   // if (loading) {
   //   return <div>Loading...</div>;
   // }
@@ -44,7 +45,7 @@ const InfoForm = ({ setTakeInput, takeInput, ProfileId }) => {
     firstName: userDetails?.firstName,
     lastName: userDetails?.lastName || "",
     email: userDetails?.email || "",
-    phoneNo: userDetails?.phoneNo || "",
+    phoneNo: userDetails?.phone || "",
     landlineNo: userDetails?.landlineNo || "",
     gender: userDetails?.gender || " ",
     dateOfBirth: userDetails?.dateOfBirth || "",
@@ -61,7 +62,7 @@ const InfoForm = ({ setTakeInput, takeInput, ProfileId }) => {
           firstName: values?.firstName,
           lastName: values?.lastName || "",
           email: values?.email || "",
-          phoneNo: values?.phoneNo || "",
+          phoneNo: values?.phone || "",
           landlineNo: values?.landlineNo || "",
           gender: values?.gender || " ",
           dateOfBirth: values?.dateOfBirth || "",

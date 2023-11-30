@@ -14,6 +14,7 @@ import { Keyboard, Navigation } from "swiper/modules";
 import { Play } from "next/font/google";
 import SingleProduct from "../SingleProduct";
 import { useMediaQuery } from "@mui/material";
+import axios from "axios";
 
 const play = Play({
   weight: ["400"],
@@ -25,7 +26,21 @@ const play = Play({
 
 
 const AllProducts = ({ totalslides, data }) => {
+  const [productsData, setProductsData] = React.useState([])
   const isMobile = useMediaQuery("(max-width: 768px)");
+
+  React.useEffect(() => {
+    const fetchProductData = async () => {
+    const response = await axios.get('/api/products')
+    if(response.data){
+      console.log(response)
+      // console.log("response:",response.data?.[0].price)
+      setProductsData(response.data)
+
+    }
+  }
+    fetchProductData()
+  }, [])
   return (
     <Swiper
       slidesPerView={totalslides || 4}
