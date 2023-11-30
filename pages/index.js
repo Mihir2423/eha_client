@@ -3,17 +3,20 @@ import React, { useEffect } from "react";
 import { getToken } from "@/redux/features/userSlice";
 import { useDispatch } from "react-redux";
 import Head from "next/head";
+import { useSession } from "next-auth/react";
 
 const Home = ({ posts, filteredItems }) => {
-  const dispatch = useDispatch();
+  // const {data:session, status} = useSession();
+  // console.log(session, status)
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    const token = window.localStorage.getItem("token");
+  // useEffect(() => {
+  //   const token = window.localStorage.getItem("token");
 
-    if (token && typeof token === "string") {
-      dispatch(getToken(token));
-    }
-  }, [dispatch]);
+  //   if (token && typeof token === "string") {
+  //     dispatch(getToken(token));
+  //   }
+  // }, [dispatch]);
   return (
     <>
       <Head>

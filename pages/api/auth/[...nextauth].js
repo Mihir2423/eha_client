@@ -80,10 +80,17 @@ const handleSession = async ({ session, user }) => {
   const userData = await prisma.User.findUnique({
     where: { email: session.user.email },
     select: {
-      
+      username: true,
       email: true,
-      phone: true,
-      profile:true,
+      firstName: true,
+      lastName: true,
+      phoneNumber: true,
+      landlineNo: true,
+      gender: true,
+      dateOfBirth: true,
+      age: true,
+      // phone: true,
+      // profile:true,
     }
   });
 
@@ -92,8 +99,16 @@ const handleSession = async ({ session, user }) => {
     user: {
       ...session.user,
       email: userData.email,
-      phone: userData.phone,
-      profile:userData.profile,
+      username: userData.username,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      phoneNumber: userData.phoneNumber,
+      landlineNo: userData.landlineNo,
+      gender: userData.gender,
+      dateOfBirth: userData.dateOfBirth,
+      age: userData.age,
+      // phone: userData.phone,
+      // profile:userData.profile,
       
     }
   };
@@ -114,15 +129,24 @@ const authOptions = {
   session: {
     strategy: "jwt",
   },
-  secret: process.env.JWT_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   debug: process.env.NODE_ENV !== "production",
   callbacks: {
     session: handleSession,
     jwt: async ({ token, user }) => ({
       ...token,
       email: user?.email,
-      phone: user?.phone,
-      id: user?.id,
+      username: user?.username,
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+      phoneNumber: user?.phoneNumber,
+      landlineNo: user?.landlineNo,
+      gender: user?.gender,
+      dateOfBirth: user?.dateOfBirth,
+      age: user?.age,
+      
+      // phone: user?.phone,
+      // id: user?.id,
     }),
   },
 };

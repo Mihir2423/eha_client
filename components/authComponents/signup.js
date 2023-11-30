@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { nova_thai } from "../../utilities/font";
@@ -20,21 +20,21 @@ const Signup = () => {
     username: "",
     email: "",
     password: "",
-    // phone: "",
+    phoneNumver: "",
   };
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string().required("Password is required"),
-    // phone: Yup.string().required("Phone is required"),
+    phoneNumber: Yup.string().required("Phone is required"),
   });
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.post('/api/signup', values);
-console.log(response)
-console.log("submission response",response.data)
+      const response = await axios.post("/api/signup", values);
+      // console.log(response)
+      // console.log("submission response",response.data)
       if (response.status === 200 || response.status === 201) {
         setSuccess(true);
         setSubmitting(false);
@@ -57,7 +57,9 @@ console.log("submission response",response.data)
     >
       {({ isSubmitting, setFieldValue }) => (
         <Form>
-          <div className={`flex items-center mt-5 ${nova_thai.className} mx-0 md:w-[50vw]`}>
+          <div
+            className={`flex items-center mt-5 ${nova_thai.className} mx-0 md:w-[50vw]`}
+          >
             <div className="flex-1 h-1/2 max-w-3xl mx-auto bg-white rounded-lg shadow-2xl ">
               <div className="flex flex-col md:flex-row">
                 {!isMobile && (
@@ -74,7 +76,9 @@ console.log("submission response",response.data)
                 <div className="flex items-center justify-center p-6 sm:p-12 md:w-[60%]">
                   <div className="w-full">
                     <div className="flex justify-between">
-                      <h1 className={`mb-4 text-3xl font-black text-black text-left ${nova_thai.className}`}>
+                      <h1
+                        className={`mb-4 text-3xl font-black text-black text-left ${nova_thai.className}`}
+                      >
                         SIGNUP
                       </h1>
                       <Link
@@ -85,7 +89,9 @@ console.log("submission response",response.data)
                         LOGIN
                       </Link>
                     </div>
-                    <span className={`text-zinc-400 text-sm mt-0 font-normal ${nova_thai.className}`}>
+                    <span
+                      className={`text-zinc-400 text-sm mt-0 font-normal ${nova_thai.className}`}
+                    >
                       Create a new account
                     </span>
                     <div>
@@ -94,9 +100,15 @@ console.log("submission response",response.data)
                         name="username"
                         className="w-full px-1 my-4 border-b-2 focus:border-b-4 focus:outline-none opacity-80 text-neutral-700 text-base font-normal"
                         placeholder="Username"
-                        onChange={(e) => setFieldValue("username", e.target.value)}
+                        onChange={(e) =>
+                          setFieldValue("username", e.target.value)
+                        }
                       />
-                      <ErrorMessage name="username" component="div" className="text-red-500 text-sm" />
+                      <ErrorMessage
+                        name="username"
+                        component="div"
+                        className="text-red-500 text-sm"
+                      />
                     </div>
                     <div>
                       <Field
@@ -106,27 +118,37 @@ console.log("submission response",response.data)
                         placeholder="Email"
                         onChange={(e) => setFieldValue("email", e.target.value)}
                       />
-                      <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
+                      <ErrorMessage
+                        name="email"
+                        component="div"
+                        className="text-red-500 text-sm"
+                      />
                     </div>
-                    {/* <div>
+                    <div>
                       <Field
                         type="text"
-                        name="phone"
+                        name="phoneNumber"
                         className="w-full px-1 my-4 border-b-2 focus:border-b-4 focus:outline-none opacity-80 text-neutral-700 text-base font-normal"
-                        placeholder="Phone"
-                        onChange={(e) => setFieldValue("phone", e.target.value)}
+                        placeholder="phoneNumber"
+                        onChange={(e) => setFieldValue("phoneNumber", e.target.value)}
                       />
-                      <ErrorMessage name="phone" component="div" className="text-red-500 text-sm" />
-                    </div> */}
+                      <ErrorMessage name="phoneNumber" component="div" className="text-red-500 text-sm" />
+                    </div>
                     <div>
                       <Field
                         type="password"
                         name="password"
                         className="w-full px-1 my-4  border-b-2 focus:border-b-4 focus:outline-none fopacity-80 text-neutral-700 text-base font-normal"
                         placeholder="Password"
-                        onChange={(e) => setFieldValue("password", e.target.value)}
+                        onChange={(e) =>
+                          setFieldValue("password", e.target.value)
+                        }
                       />
-                      <ErrorMessage name="password" component="div" className="text-red-500 text-sm" />
+                      <ErrorMessage
+                        name="password"
+                        component="div"
+                        className="text-red-500 text-sm"
+                      />
                     </div>
                     <button
                       type="submit"

@@ -15,7 +15,7 @@ import { useCart } from "react-use-cart";
 
 // import localFont from "next/font/local";
 import { useDispatch, useSelector } from "react-redux";
-// import { addedMsg } from "@/redux/features/addToCartSlice";
+import { addedMsg } from "@/redux/features/addToCartSlice";
 // import axios from "axios";
 
 // const nova_thai = localFont({

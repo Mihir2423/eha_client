@@ -23,7 +23,7 @@ import ProfileMenu from "./ProfileMenu";
 import SearchContent from "./SearchContent";
 import UIButton from "../ui/UIButton";
 
-import { GET_PRODUCT_BY_NAME } from "@/gqloperation/queries";
+// import { GET_PRODUCT_BY_NAME } from "@/gqloperation/queries";
 import { mainTitle, smallTypo } from "@/styles/typoStyles";
 import localFont from "next/font/local";
 
@@ -67,10 +67,10 @@ const Header = () => {
     return () => clearTimeout(debouncedHandleQuery);
   }, [searchInput]);
 
-  const [
-    getProducts,
-    { data: { products: { data: productsData } = {} } = {}, loading, error },
-  ] = useLazyQuery(GET_PRODUCT_BY_NAME);
+  // const [
+  //   getProducts,
+  //   { data: { products: { data: productsData } = {} } = {}, loading, error },
+  // ] = useLazyQuery('');
 
   // Function to open the cart menu
   const handleOpenCart = (event) => {
@@ -258,7 +258,9 @@ const Header = () => {
               isProfileOpen={isProfileOpen}
               handleCloseProfile={handleCloseProfile}
               profile={profile}
-            />
+
+            /> 
+            
           </Box>
         </Box>
         {isMobile && (

@@ -40,39 +40,48 @@ model User {
   updatedAt          DateTime? @updatedAt
   username           String
   email              String    @unique
-  role               String    @default("user")
+  role               String?    @default("user")
   provider           String?
   password           String
   resetPasswordToken String?
   confirmationToken  String?
   confirmed          Boolean?
-  blocked            Boolean?
-  phone              String?
+  blocked            Boolean? @default(false)
+  firstName    String?
+  lastName     String?
+  gender       Gender?
+  dateOfBirth  DateTime?
+  age          String?
+  phoneNumber  Int?
+  landlineNo   Int?
+  profileImage String?
+  address      Json?
+  userAddress  Json?
   accounts           Account[]
   orders             Order[]   @relation("OrderToUser")
-  profile            Profile[] @relation("ProfileToUser")
+ 
   products           Product[] @relation("ProductToUser")
   Session            Session[]
 }
-
-model Profile {
-  id           Int      @id @default(autoincrement())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime? @updatedAt
-  firstName    String
-  lastName     String
-  gender       Gender
-  dateOfBirth  DateTime
-  age          String?
-  phoneNumber  BigInt
-  landlineNo   BigInt?
-  profileImage String?
-  address      Json
-  userAddress  Json
-  userId       Int?   @map("userId")
-  user User? @relation("ProfileToUser", fields: [userId], references: [id], onDelete: Cascade)
-  email        String   @unique @map("email")
-}
+ // profile            Profile[] @relation("ProfileToUser")
+// model Profile {
+//   id           Int      @id @default(autoincrement())
+//   createdAt    DateTime @default(now())
+//   updatedAt    DateTime? @updatedAt
+//   firstName    String
+//   lastName     String
+//   gender       Gender
+//   dateOfBirth  DateTime
+//   age          String?
+//   phoneNumber  Int
+//   landlineNo   Int?
+//   profileImage String?
+//   address      Json
+//   userAddress  Json
+//   userId       Int?   @map("userId")
+//   // user User? @relation("ProfileToUser", fields: [userId], references: [id], onDelete: Cascade)
+//   email        String   @unique @map("email")
+// }
 
 model Product {
   id            Int        @id @default(autoincrement())

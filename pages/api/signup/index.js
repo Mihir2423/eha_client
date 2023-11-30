@@ -1,65 +1,17 @@
-// import { PrismaClient } from "@prisma/client";
-// import bcrypt from "bcrypt";
-
-// const prisma = new PrismaClient()
-
-// export default async function handler(req, res) {
-//     if (req.method === 'POST') {
-//       const { username, email, password,phone } = req.body;
-  
-//       if (!email || !password) {
-//         return new NextResponse("Please fill all the required fields", {
-//           status: 400,
-//         });
-//       }
-
-//       try {
-
-//         const existingUser = await prisma.user.findUnique({
-//           where: {
-//             email: email,
-//           },
-//         });
-    
-//         if (existingUser) {
-//           return new NextResponse("User already exists with that email.", {
-//             status: 400,
-//           });
-//         }
-
-//         const hashedPassword = await bcrypt.hash(password, 10);
-
-//         const user = await prisma.User.create({
-//           data: {
-//             username:username,
-//             email:email,
-//             password:hashedPassword,
-//             phone:phone,
-//           },
-//         });
-//         res.status(201).json(user);
-//       } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ error: 'Internal Server Error' });
-//       }
-//     } else {
-//       res.status(405).json({ error: 'Method Not Allowed' });
-//     }
-//   }
-
-
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const { username, email, password } = req.body;
+  if (req.method === "POST") {
+    const { username, email, password, phoneNumber } = req.body;
 
     // Check if email and password are provided
     if (!email || !password) {
-      return res.status(400).json({ error: "Please fill all the required fields" });
+      return res
+        .status(400)
+        .json({ error: "Please fill all the required fields" });
     }
 
     try {
@@ -71,7 +23,9 @@ export default async function handler(req, res) {
       });
 
       if (existingUser) {
-        return res.status(400).json({ error: "User already exists with that email." });
+        return res
+          .status(400)
+          .json({ error: "User already exists with that email." });
       }
 
       // Hash the password
@@ -83,7 +37,7 @@ export default async function handler(req, res) {
           username: username,
           email: email,
           password: hashedPassword,
-          // phone: phone,
+          phoneNumber: phoneNumber,
         },
       });
 
@@ -91,9 +45,49 @@ export default async function handler(req, res) {
       res.status(201).json(newUser);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ error: "Internal Server Error" });
     }
   } else {
-    res.status(405).json({ error: 'Method Not Allowed' });
+    res.status(405).json({ error: "Method Not Allowed" });
+  }
+
+  if (req.method === "GET") {
+    const users = await prisma.user.findMany();
+    res.status(200).json({ success: true, data: users });
+  }
+
+  if (req.method === "PATCH") {
+    const { 
+      id, 
+      username, 
+      email, 
+      phoneNumber, 
+      firstName, 
+      lastName, 
+      landlineNo,
+      dateOfBirth,
+      gender,
+      age
+
+    } =
+      req.body;
+      console.log(req.body)
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        username: username,
+        email: email,
+        phoneNumber: phoneNumber,
+        firstName: firstName,
+        lastName: lastName,
+        landlineNo: landlineNo,
+        dateOfBirth: dateOfBirth,
+        gender:gender,
+        age:age
+      },
+    });
+    res.status(200).json({ success: true, data: updatedUser });
   }
 }

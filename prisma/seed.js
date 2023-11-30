@@ -9,33 +9,18 @@ const seedDatabase = async () => {
 
   try {
     // Seed users
-    const user1 = await prisma.user.create({
+   const user1 = await prisma.User.create({
       data: {
         username: 'cam',
         email: 'c@c.com',
-        password: await bcrypt.hash('password123',10) , //password123
+        phoneNumber: '1234567890',
+        password: await bcrypt.hash('test',10) , //password123
       },
     });
+
+    console.log("user created: ",user1)
 
     
-
-    // Seed profiles
-    await prisma.profile.create({
-      data: {
-        firstName: 'John',
-        lastName: 'Doe',
-        gender: 'MALE',
-        dateOfBirth: new Date('1990-01-01'),
-        phoneNumber: 1234567890,
-        id: user1.id,
-        email: user1.email,
-        landlineNo: "1234567890",
-        address: "1234 Main St",
-        
-        userAddress: '1234 Main St',
-
-      },
-    });
 
     
     // Seed other entities (products, orders, categories, etc.) if needed

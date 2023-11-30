@@ -1,6 +1,12 @@
-
 import React from "react";
-import { Alert, Box, Button, Snackbar, Typography, useMediaQuery} from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Snackbar,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup"; // Import Yup for validation
@@ -13,102 +19,144 @@ import Image from "next/image";
 
 const InfoForm = ({ setTakeInput, takeInput, ProfileId }) => {
   const [loading, setLoading] = React.useState(false);
-  const [formData, setFormData] = React.useState({
-    firstName:'',
-    lastName:'',
-    gender:'',
-    dateOfBirth:'',
-    email:'',
-    phoneNo:'',
-    landlineNo:'',
-    age:''
-  })
+  // const [formData, setFormData] = React.useState({
+  //   firstName,
+  //   lastName,
+  //   gender,
+  //   age,
+  //   phoneNumber,
+  //   dateOfBirth,
+  //   landlineNo,
+  //   profileImage,
+  //   address,
+  //   userAddress,
+  // });
   // const userDetails = useSelector((state) => state.user.userDetails.details);
+
   const dispatch = useDispatch();
   const { data: session } = useSession();
-  const userDetails = session?.user
+  const userDetails = session?.user;
   // if (loading) {
   //   return <div>Loading...</div>;
   // }
-  const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required("First Name is required"),
-    lastName: Yup.string().required("Last Name is required"),
-    email: Yup.string().email("Invalid email").required("Email is required"),
-    phoneNo: Yup.string(),
-    landlineNo: Yup.string(),
-    gender: Yup.string(),
-    dateOfBirth: Yup.string(),
-    age: Yup.string(),
-  });
+  // const validationSchema = Yup.object().shape({
+  //   firstName: Yup.string().required("First Name is required"),
+  //   lastName: Yup.string().required("Last Name is required"),
+  //   email: Yup.string().email("Invalid email").required("Email is required"),
+  //   phoneNumber: Yup.string(),
+  //   landlineNo: Yup.string(),
+  //   gender: Yup.string(),
+  //   dateOfBirth: Yup.date(),
+  //   age: Yup.string(),
+  // });
 
   const initialValues = {
     firstName: userDetails?.firstName,
     lastName: userDetails?.lastName || "",
     email: userDetails?.email || "",
-    phoneNo: userDetails?.phone || "",
+    phoneNumber: userDetails?.phoneNumber || "",
     landlineNo: userDetails?.landlineNo || "",
     gender: userDetails?.gender || " ",
     dateOfBirth: userDetails?.dateOfBirth || "",
     age: userDetails?.age || "",
   };
 
+  // const onSubmit = async (values) => {
+  //   console.log(values);
+  //   setLoading(true);
+  //   try {
+  //     const apiUrl = `/api/profiles/`;
+  //     const payload = {
+  //       data: {
+  //         firstName: values?.firstName,
+  //         lastName: values?.lastName || "",
+  //         email: values?.email || "",
+  //         phoneNo: values?.phone || "",
+  //         landlineNo: values?.landlineNo || "",
+  //         gender: values?.gender || " ",
+  //         dateOfBirth: values?.dateOfBirth || "",
+  //         age: values?.age || "",
+  //       },
+  //     };
+
+  //     const headers = {
+  //       Authorization: `Bearer ${session?.jwt}`,
+  //     };
+  //     const response = await axios.put(apiUrl, payload, { headers });
+  //     setLoading(false);
+  //     dispatch(setDetails(response?.data?.data?.attributes));
+  //     setTakeInput(false);
+  //     console.log("API response:", response.data);
+  //     setFormData(response.data);
+  //   } catch (error) {
+  //     console.error("API error:", error);
+  //   }
+  // };
   const onSubmit = async (values) => {
-    console.log(values);
+    console.log("Form Values:", values);
     setLoading(true);
+  
     try {
-      const apiUrl = `/api/profiles/`;
+      const apiUrl = `/api/signup/${ProfileId}`; 
+      // const userData = await axios.get('/api/signup')
+      // console.log(userData) // Assuming you have a way to get the ProfileId
       const payload = {
+
         data: {
-          firstName: values?.firstName,
+          firstName: values?.firstName ||"",
           lastName: values?.lastName || "",
           email: values?.email || "",
-          phoneNo: values?.phone || "",
+          phoneNumber: values?.phoneNumber || "",
           landlineNo: values?.landlineNo || "",
           gender: values?.gender || " ",
           dateOfBirth: values?.dateOfBirth || "",
-          age: values?.age || ""
-        }
+          age: values?.age || "",
+        },
       };
-
+  
       const headers = {
         Authorization: `Bearer ${session?.jwt}`,
       };
-      const response = await axios.put(apiUrl, payload, { headers });
+  
+      const response = await axios.patch(apiUrl, payload);
+  
       setLoading(false);
       dispatch(setDetails(response?.data?.data?.attributes));
       setTakeInput(false);
       console.log("API response:", response.data);
-      setFormData(response.data)
+      setFormData(response.data);
     } catch (error) {
       console.error("API error:", error);
+      // Handle error appropriately
     }
   };
-
+  
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
-      validationSchema={validationSchema}
+      // validationSchema={validationSchema}
     >
       {({ errors, touched, values }) => (
-        <Form className={`${nova_thai.className} text-left m-4 rounded-md shadow-2xl bg-white py-8`}>
-
-        
-          <h1 className="flex items-center justify-center md:text-3xl text-xl text-center font-bold border-b-2 pb-4 border-red-500">Personal Information
-          {
-            !takeInput ? (
+        <Form
+          className={`${nova_thai.className} text-left m-4 rounded-md shadow-2xl bg-white py-8`}
+        >
+          <h1 className="flex items-center justify-center md:text-3xl text-xl text-center font-bold border-b-2 pb-4 border-red-500">
+            Personal Information
+            {!takeInput ? (
               <Box
-              className={` ml-4 md:hidden`}
-              onClick={() => setTakeInput(true)}
-            >
-              <Image src={editIconSvg} alt="edit" />
-            </Box>
-            ): null
-          }
+                className={` ml-4 md:hidden`}
+                onClick={() => setTakeInput(true)}
+              >
+                <Image src={editIconSvg} alt="edit" />
+              </Box>
+            ) : null}
           </h1>
-         
+
           <Box className={`md:flex gap-20 flex-col`}>
-            <Box className={`md:flex w-full py-4 px-8 justify-between md:space-x-3`}>
+            <Box
+              className={`md:flex w-full py-4 px-8 justify-between md:space-x-3`}
+            >
               <label className="block mt-4">
                 <span className="text-gray-700">First Name*</span>
                 <Field
@@ -160,14 +208,14 @@ const InfoForm = ({ setTakeInput, takeInput, ProfileId }) => {
             <label className="block mt-4">
               <span className="text-gray-700">Phone No.</span>
               <Field
-                name="phoneNo"
+                name="phoneNumber"
                 type="text"
                 disabled={!takeInput}
                 className="w-full px-1 my-4 border-b-2 focus:border-b-4 focus:outline-none opacity-80 text-neutral-700 text-sm font-normal"
                 placeholder="Enter your phone number"
               />
               <ErrorMessage
-                name="phoneNo"
+                name="phoneNumber"
                 component="div"
                 className="text-red-500 text-sm font-medium mt-1"
               />
@@ -236,32 +284,28 @@ const InfoForm = ({ setTakeInput, takeInput, ProfileId }) => {
             </label>
             <Box className={`w-[31%]`} />
           </Box>
-          {
-            takeInput ? (
-              <Box className={`flex md:justify-left justify-end px-[32px] mt-6`}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  style={{
-                    backgroundColor: "#EA1D25",
-                    width: 110,
-                    padding: "12px 25px",
-                    borderRadius: 7,
-                  }}
-                  onClick={onSubmit}
-
+          {takeInput ? (
+            <Box className={`flex md:justify-left justify-end px-[32px] mt-6`}>
+              <Button
+                type="submit"
+                variant="contained"
+                style={{
+                  backgroundColor: "#EA1D25",
+                  width: 110,
+                  padding: "12px 25px",
+                  borderRadius: 7,
+                }}
+                onClick={onSubmit}
+              >
+                <Typography
+                  variant="p"
+                  className={`${nova_thai_bold.className} text-[14px] line-height-[22px] text-[#FFFFFF]`}
                 >
-                  <Typography
-                    variant="p"
-                    className={`${nova_thai_bold.className} text-[14px] line-height-[22px] text-[#FFFFFF]`}
-                  >
-                    SAVE
-                  </Typography>
-                </Button>
-
-              </Box>
-            ) : null
-          }
+                  SAVE
+                </Typography>
+              </Button>
+            </Box>
+          ) : null}
           {loading && (
             <Snackbar
               className="mb-8"
@@ -282,7 +326,4 @@ const InfoForm = ({ setTakeInput, takeInput, ProfileId }) => {
   );
 };
 
-
-
 export default InfoForm;
-

@@ -30,13 +30,7 @@ const Login = () => {
     password: "",
   };
 
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData({
-  //     ...formData,
-  //     [name]: value,
-  //   });
-  // };
+
 
   const handleSubmit = async (values) => {
     try {

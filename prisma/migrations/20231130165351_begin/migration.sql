@@ -36,36 +36,25 @@ CREATE TABLE "User" (
     "updatedAt" TIMESTAMP(3),
     "username" TEXT NOT NULL,
     "email" TEXT NOT NULL,
+    "role" TEXT DEFAULT 'user',
     "provider" TEXT,
     "password" TEXT NOT NULL,
     "resetPasswordToken" TEXT,
     "confirmationToken" TEXT,
     "confirmed" BOOLEAN,
-    "blocked" BOOLEAN,
-    "phone" TEXT,
+    "blocked" BOOLEAN DEFAULT false,
+    "firstName" TEXT,
+    "lastName" TEXT,
+    "gender" "Gender",
+    "dateOfBirth" TIMESTAMP(3),
+    "age" TEXT,
+    "phoneNumber" INTEGER,
+    "landlineNo" INTEGER,
+    "profileImage" TEXT,
+    "address" JSONB,
+    "userAddress" JSONB,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Profile" (
-    "id" SERIAL NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3),
-    "firstName" TEXT NOT NULL,
-    "lastName" TEXT NOT NULL,
-    "gender" "Gender" NOT NULL,
-    "dateOfBirth" TIMESTAMP(3) NOT NULL,
-    "age" TEXT,
-    "phoneNumber" BIGINT NOT NULL,
-    "landlineNo" BIGINT,
-    "profileImage" TEXT,
-    "address" JSONB NOT NULL,
-    "userAddress" JSONB NOT NULL,
-    "userId" INTEGER,
-    "email" TEXT NOT NULL,
-
-    CONSTRAINT "Profile_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -132,9 +121,6 @@ CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Profile_email_key" ON "Profile"("email");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Product_slug_key" ON "Product"("slug");
 
 -- CreateIndex
@@ -151,9 +137,6 @@ ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId"
 
 -- AddForeignKey
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Profile" ADD CONSTRAINT "Profile_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Product" ADD CONSTRAINT "Product_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -20,7 +20,7 @@ const ProductImage = ({ data }) => {
             {data?.attributes?.image?.data?.map((item, i) => (
               <Image
                 key={i}
-                src={item?.attributes?.url || laptopImg}
+                src={laptopImg}//||item?.attributes?.url
                 alt="product"
                 width={100}
                 height={100}
