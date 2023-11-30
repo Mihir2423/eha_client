@@ -16,6 +16,8 @@ const nova_thai = localFont({
 });
 
 const AddBtns = () => {
+  // const id = window.location.pathname.split("/")[2];
+  
   const item = useSelector((state) => state?.product?.prodDetails);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [ele, setEle] = React.useState(null);
@@ -34,7 +36,7 @@ const AddBtns = () => {
 
   const addToCart = () => {
     addItem({
-      id: item?.id,
+      id:id,
       name: item?.attributes?.name,
       price: item?.attributes?.price,
       img: item?.attributes?.thumbnail?.data?.attributes?.url,

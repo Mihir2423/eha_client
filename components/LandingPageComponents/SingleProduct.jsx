@@ -13,15 +13,15 @@ import laptopImg from "../../assets/svg/laptopImg.svg";
 
 import { useCart } from "react-use-cart";
 
-// import localFont from "next/font/local";
+import localFont from "next/font/local";
 import { useDispatch, useSelector } from "react-redux";
 import { addedMsg } from "@/redux/features/addToCartSlice";
 // import axios from "axios";
 
-// const nova_thai = localFont({
-//   src: "../../assets/fonts/NotoSansThaiLooped-Regular.ttf",
-//   display: "swap",
-// });
+const nova_thai = localFont({
+  src: "../../assets/fonts/NotoSansThaiLooped-Regular.ttf",
+  display: "swap",
+});
 
 // const SingleProduct = ({ item }) => {
 //   const { addItem } = useCart();
@@ -165,7 +165,15 @@ const SingleProduct = ({ item }) => {
   const isSmallMobile = useMediaQuery("(max-width: 380px)");
   const dispatch = useDispatch();
   const router = useRouter();
-
+  const [ele, setEle] = React.useState(null);
+  const status = useSelector((state) => state?.govCorporate?.status);
+  React.useEffect(() => {
+    if (typeof window !== "undefined" && window.localStorage) {
+      const eleItem = localStorage.getItem("ele");
+      setEle(eleItem);
+    }
+  }, [ele, status]);
+  
   const addToCart = () => {
     addItem({
       id: item?.id,
@@ -197,7 +205,7 @@ const SingleProduct = ({ item }) => {
             <Typography variant="p" className={styles.productDesc}>
               {item?.name}
             </Typography>
-            <Typography className={`${styles.prodPrice}`}>
+            <Typography className={`${styles.prodPrice}${nova_thai.className}`}>
               {`₹${item?.price}`}
             </Typography>
           </Box>
@@ -206,26 +214,30 @@ const SingleProduct = ({ item }) => {
 
           <Box className={`${styles.cartBtns}`}>
             <Box
-              className={`flex justify-center items-center gap-1 md:gap-[8px] px-2`}
+              className={`flex ${ele || status ? `justify-center`: `justify-between`} items-center px-2`}
               style={{
                 borderRadius: "5px",
               }}
               onClick={addToCart}
             >
               <h3
-                className={`text-white normal-case text-base text-[10px] md:text-[13px] 
-                ${isSmallMobile ? "text-[9px]" : ""}`}
+                className={`text-white normal-case text-base${
+                  nova_thai.className
+                } text-[10px] md:text-[13px] 
+                ${isSmallMobile && (ele || status) ? "text-[10px]" : isSmallMobile ? "text-[9px]" : ""}`}
               >
                 {"Add To Cart"}
               </h3>
               <Image
-                src={greyCart}
+                src={ele || status ? ListIcon : greyCart}
                 alt={"cart"}
                 style={{ width: isMobile ? "13px" : "30px" }}
               />
             </Box>
             <Box
-              className={`rounded-full border-black border-2 p-1 md:p-2 overflow-hidden`}
+              className={`${
+                ele || status ? `hidden` : ``
+              } rounded-full border-black border-2 p-1 md:p-2 overflow-hidden`}
             >
               <Image
                 src={heartImg}

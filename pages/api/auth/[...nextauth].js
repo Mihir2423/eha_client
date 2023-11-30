@@ -80,6 +80,7 @@ const handleSession = async ({ session, user }) => {
   const userData = await prisma.User.findUnique({
     where: { email: session.user.email },
     select: {
+      id: true,
       username: true,
       email: true,
       firstName: true,
@@ -98,6 +99,7 @@ const handleSession = async ({ session, user }) => {
     ...session,
     user: {
       ...session.user,
+      id: userData.id,
       email: userData.email,
       username: userData.username,
       firstName: userData.firstName,
@@ -135,6 +137,7 @@ const authOptions = {
     session: handleSession,
     jwt: async ({ token, user }) => ({
       ...token,
+      id: user?.id,
       email: user?.email,
       username: user?.username,
       firstName: user?.firstName,
@@ -144,6 +147,7 @@ const authOptions = {
       gender: user?.gender,
       dateOfBirth: user?.dateOfBirth,
       age: user?.age,
+
       
       // phone: user?.phone,
       // id: user?.id,

@@ -6,7 +6,7 @@ import { useCart } from "react-use-cart";
 import { useSession } from "next-auth/react";
 import { RemoveCircleOutlined,CheckCircle,CloseSharp } from "@mui/icons-material";
 import { nova_thai,nova } from "@/utilities/font";
-
+import laptopImg from "../../assets/svg/laptopImg.svg";
 const CartMenu = ({ anchorEl, isCartOpen, handleCloseCart }) => {
   const { data: session } = useSession();
   const { isEmpty, items, cartTotal, removeItem } = useCart();
@@ -26,7 +26,8 @@ const CartMenu = ({ anchorEl, isCartOpen, handleCloseCart }) => {
       <MenuItem key={item.id} onClick={handleCloseCart}>
         <div className="flex items-center">
           <Image
-            src={item.img}
+            // src={item.img}
+            src={laptopImg}
             alt={item.name}
             width={70}
             height={70}

@@ -19,6 +19,7 @@ import Image from "next/image";
 
 const InfoForm = ({ setTakeInput, takeInput, ProfileId }) => {
   const [loading, setLoading] = React.useState(false);
+  
   // const [formData, setFormData] = React.useState({
   //   firstName,
   //   lastName,
@@ -36,6 +37,8 @@ const InfoForm = ({ setTakeInput, takeInput, ProfileId }) => {
   const dispatch = useDispatch();
   const { data: session } = useSession();
   const userDetails = session?.user;
+  const id = userDetails?.id
+  console.log("userDetails:", userDetails);
   // if (loading) {
   //   return <div>Loading...</div>;
   // }
@@ -97,7 +100,7 @@ const InfoForm = ({ setTakeInput, takeInput, ProfileId }) => {
     setLoading(true);
   
     try {
-      const apiUrl = `/api/signup/${ProfileId}`; 
+      const apiUrl = `/api/signup/${id}`; 
       // const userData = await axios.get('/api/signup')
       // console.log(userData) // Assuming you have a way to get the ProfileId
       const payload = {
