@@ -61,7 +61,7 @@ const ProfileMenu = ({
           <Link
             className={`text-sm font-semibold ${nova_thai.className}`}
             href={"/auth/login"}
-            onClick={signOut}
+            onClick={()=>signOut()}
           >
             Logout
           </Link>

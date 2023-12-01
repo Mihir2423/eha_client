@@ -11,6 +11,9 @@ const productSlice = createSlice({
     getProduct: (state, action) => {
       state.prodDetails = action.payload;
     },
+    setProduct:(state,action)=>{
+      state.prodDetails=action.payload;
+    }
   },
 });
 

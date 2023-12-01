@@ -8,8 +8,8 @@ const prisma = new PrismaClient();
 
 const authorize = async (credentials) => {
   // console.log("Credentials:", credentials);
-
-  if (!credentials.email || !credentials.password) {
+  const { email, password } = credentials;
+  if (!email || !password) {
     throw new Error("Please enter email and password");
   }
 
@@ -120,6 +120,7 @@ const handleSession = async ({ session, user }) => {
 const authOptions = {
   providers: [
     CredentialsProvider({
+      name: "Credentials",
       credentials: {
         username: { label: "Email", type: "email", placeholder: "someone@example.com" },
         password: { label: "Password", type: "password" },
@@ -134,24 +135,15 @@ const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   debug: process.env.NODE_ENV !== "production",
   callbacks: {
-    session: handleSession,
-    jwt: async ({ token, user }) => ({
-      ...token,
-      id: user?.id,
-      email: user?.email,
-      username: user?.username,
-      firstName: user?.firstName,
-      lastName: user?.lastName,
-      phoneNumber: user?.phoneNumber,
-      landlineNo: user?.landlineNo,
-      gender: user?.gender,
-      dateOfBirth: user?.dateOfBirth,
-      age: user?.age,
-
+    
+     async jwt({ token, user }){
+      return {...token,...user};
       
-      // phone: user?.phone,
-      // id: user?.id,
-    }),
+    },
+    async session ({session,token, user}){
+      session.user = token;
+      return session;
+    },
   },
 };
 

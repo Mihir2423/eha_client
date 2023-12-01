@@ -37,7 +37,7 @@ const nova_thai = localFont({
 //       console.log(response)
 //       // console.log("response:",response.data?.[0].price)
 //       setProductsData(response.data)
-
+//        dispatch()
 //     }
 //   }
 //     fetchProductData()

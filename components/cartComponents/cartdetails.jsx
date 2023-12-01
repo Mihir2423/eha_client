@@ -45,20 +45,20 @@ export default function CartDetails({ nextStep, prevStep }) {
           <center>
             <Image
               src={item.img}
-              alt={item.name}
+              alt={item.name ||""}
               width={isMobile ? "200" : "150"}
               height={isMobile ? "60" : "50"}
               className="object-fill rounded-md md:py-4 flex items-center justify-center text-center"
             />
           </center>
 
-          <div class="md:flex-col md:w-[60%]">
-            <div class="p-4">
-              <h3 class="text-lg font-semibold">{item.name}</h3>
-              <div class="flex mt-3 ml-2 space-x-3">
-                <p class="text-black text-lg">₹ {item.price}</p>
-                <p class="text-base font-sm line-through">₹ {item.price}</p>
-                <p class="text-green-600 text-base font-bold">31% OFF</p>
+          <div className="md:flex-col md:w-[60%]">
+            <div className="p-4">
+              <h3 className="text-lg font-semibold">{item.name}</h3>
+              <div className="flex mt-3 ml-2 space-x-3">
+                <p className="text-black text-lg">₹ {item.price}</p>
+                <p className="text-base font-sm line-through">₹ {item.price}</p>
+                <p className="text-green-600 text-base font-bold">31% OFF</p>
               </div>
             </div>
           </div>
