@@ -1,7 +1,7 @@
 
 export default async function handler(req, res) {
   try {
-    const apiRes = await fetch(`${process.env.NEXT_PUBLIC_NEXT_API_PUBLIC_URL}/api/products?populate=*`);
+    const apiRes = await fetch(`${process.env.NEXT_PUBLIC_NEXT_API_PUBLIC_URL}/api/products`);
     const apiData = await apiRes.json();
     
     const filteredItems = apiData?.data

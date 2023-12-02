@@ -3,9 +3,12 @@ import React, { useEffect } from "react";
 import { getToken } from "@/redux/features/userSlice";
 import { useDispatch } from "react-redux";
 import Head from "next/head";
+import Footer from "@/components/footer/footer";
+
 
 const Home = ({ posts, filteredItems }) => {
   const dispatch = useDispatch();
+  console.log(filteredItems);
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -21,19 +24,18 @@ const Home = ({ posts, filteredItems }) => {
         <meta name="description" content="Get all electronics products" />
       </Head>
       <HomePage posts={posts} laptops={filteredItems} />
+      <Footer />
     </>
   );
 };
 
 export default Home;
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   try {
     const [postsRes, filteredItemsRes] = await Promise.all([
-      fetch(
-        `${process.env.NEXT_PUBLIC_NEXT_API_PUBLIC_URL}/api/products?populate=*`
-      ),
-      fetch(`${process.env.NEXT_PUBLIC_CLIENT_PUBLIC_URL}/api/products`),
+      fetch(`${process.env.NEXT_PUBLIC_NEXT_API_PUBLIC_URL}/api/products?populate=*`),
+      fetch(`${process.env.NEXT_PUBLIC_NEXT_API_PUBLIC_URL}/api/products`),
     ]);
 
     const posts = await postsRes.json();
@@ -41,7 +43,7 @@ export async function getServerSideProps(context) {
     return {
       props: {
         posts,
-        filteredItems,
+        filteredItems: [],
       },
     };
   } catch (error) {

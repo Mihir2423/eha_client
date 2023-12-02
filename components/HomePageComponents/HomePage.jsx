@@ -41,9 +41,7 @@ const HomePage = ({ posts, laptops }) => {
     <Box className="p-0 pb-4">
       <BannerSection />
       <DealsForYou posts={posts} />
-      <BestSeller posts={laptops} />
       <NewArrival posts={posts} />
-      <BestSeller posts={laptops} />
 
       {success && (
         <Snackbar
