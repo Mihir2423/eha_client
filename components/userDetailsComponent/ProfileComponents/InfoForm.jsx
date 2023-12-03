@@ -1,15 +1,8 @@
-import React from "react";
-import {
-  Alert,
-  Box,
-  Button,
-  Snackbar,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import React, { useState } from "react";
+import { Alert, Box, Button, Snackbar, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup"; // Import Yup for validation
+import * as Yup from "yup";
 import axios from "axios";
 import { nova_thai_bold, nova_thai } from "@/utilities/font";
 import { setDetails } from "@/redux/features/userSlice";
@@ -17,44 +10,33 @@ import { useSession } from "next-auth/react";
 import editIconSvg from "../../../assets/svg/editIconSvg.svg";
 import Image from "next/image";
 
-const InfoForm = ({ setTakeInput, takeInput, ProfileId }) => {
-  const [loading, setLoading] = React.useState(false);
-  
-  // const [formData, setFormData] = React.useState({
-  //   firstName,
-  //   lastName,
-  //   gender,
-  //   age,
-  //   phoneNumber,
-  //   dateOfBirth,
-  //   landlineNo,
-  //   profileImage,
-  //   address,
-  //   userAddress,
-  // });
-  // const userDetails = useSelector((state) => state.user.userDetails.details);
+
+const InfoForm = ({ setTakeInput, takeInput }) => {
+  const [loading, setLoading] = useState(false);
+  const [updatedData, setUpdatedData] = useState({});
+  const userDetail = useSelector((state) => state.user.userDetails.details);
+  console.log("userDetail:", userDetail);
 
   const dispatch = useDispatch();
   const { data: session } = useSession();
   const userDetails = session?.user;
-  const id = userDetails?.id
-  console.log("userDetails:", userDetails);
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
-  // const validationSchema = Yup.object().shape({
-  //   firstName: Yup.string().required("First Name is required"),
-  //   lastName: Yup.string().required("Last Name is required"),
-  //   email: Yup.string().email("Invalid email").required("Email is required"),
-  //   phoneNumber: Yup.string(),
-  //   landlineNo: Yup.string(),
-  //   gender: Yup.string(),
-  //   dateOfBirth: Yup.date(),
-  //   age: Yup.string(),
-  // });
+  const id = userDetails?.id;
+console.log("Page id:", id)
+
+
+  const validationSchema = Yup.object().shape({
+    firstName: Yup.string().required("First Name is required"),
+    lastName: Yup.string().required("Last Name is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    phoneNumber: Yup.string(),
+    landlineNo: Yup.string(),
+    gender: Yup.string(),
+    dateOfBirth: Yup.date(),
+    age: Yup.string(),
+  });
 
   const initialValues = {
-    firstName: userDetails?.firstName,
+    firstName: userDetails?.firstName || "",
     lastName: userDetails?.lastName || "",
     email: userDetails?.email || "",
     phoneNumber: userDetails?.phoneNumber || "",
@@ -64,55 +46,21 @@ const InfoForm = ({ setTakeInput, takeInput, ProfileId }) => {
     age: userDetails?.age || "",
   };
 
-  // const onSubmit = async (values) => {
-  //   console.log(values);
-  //   setLoading(true);
-  //   try {
-  //     const apiUrl = `/api/profiles/`;
-  //     const payload = {
-  //       data: {
-  //         firstName: values?.firstName,
-  //         lastName: values?.lastName || "",
-  //         email: values?.email || "",
-  //         phoneNo: values?.phone || "",
-  //         landlineNo: values?.landlineNo || "",
-  //         gender: values?.gender || " ",
-  //         dateOfBirth: values?.dateOfBirth || "",
-  //         age: values?.age || "",
-  //       },
-  //     };
 
-  //     const headers = {
-  //       Authorization: `Bearer ${session?.jwt}`,
-  //     };
-  //     const response = await axios.put(apiUrl, payload, { headers });
-  //     setLoading(false);
-  //     dispatch(setDetails(response?.data?.data?.attributes));
-  //     setTakeInput(false);
-  //     console.log("API response:", response.data);
-  //     setFormData(response.data);
-  //   } catch (error) {
-  //     console.error("API error:", error);
-  //   }
-  // };
   const onSubmit = async (values) => {
-    console.log("Form Values:", values);
     setLoading(true);
-  
     try {
-      const apiUrl = `/api/signup/${id}`; 
-      // const userData = await axios.get('/api/signup')
-      // console.log(userData) // Assuming you have a way to get the ProfileId
+      const apiUrl = `/api/signup/${id}`;
       const payload = {
-
+        id: id,
         data: {
-          firstName: values?.firstName ||"",
+          firstName: values?.firstName || "",
           lastName: values?.lastName || "",
           email: values?.email || "",
           phoneNumber: values?.phoneNumber || "",
           landlineNo: values?.landlineNo || "",
-          gender: values?.gender || " ",
-          dateOfBirth: values?.dateOfBirth || "",
+          gender: values?.gender.trim().toUpperCase() || "MALE" || "FEMALE",
+          dateOfBirth: new Date(values?.dateOfBirth).toISOString(), // Format the date
           age: values?.age || "",
         },
       };
@@ -122,12 +70,15 @@ const InfoForm = ({ setTakeInput, takeInput, ProfileId }) => {
       };
   
       const response = await axios.patch(apiUrl, payload);
+      console.log("API response:", response.data);
+      if (response.ok) {
+        setUpdatedData(response.data);
+      }
   
       setLoading(false);
-      dispatch(setDetails(response?.data?.data?.attributes));
+      dispatch(setDetails(response?.data));
       setTakeInput(false);
       console.log("API response:", response.data);
-      setFormData(response.data);
     } catch (error) {
       console.error("API error:", error);
       // Handle error appropriately
@@ -138,7 +89,7 @@ const InfoForm = ({ setTakeInput, takeInput, ProfileId }) => {
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
-      // validationSchema={validationSchema}
+      validationSchema={validationSchema}
     >
       {({ errors, touched, values }) => (
         <Form

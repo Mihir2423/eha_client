@@ -1,3 +1,4 @@
+"use client"
 import productImage from "../../assets/png/pngwing 7.png";
 import { nova_thai } from "../../utilities/font";
 import CardTotal from "./cardTotal";
@@ -44,7 +45,7 @@ export default function CartDetails({ nextStep, prevStep }) {
         >
           <center>
             <Image
-              src={item.img}
+              src={ productImage||item.img}
               alt={item.name ||""}
               width={isMobile ? "200" : "150"}
               height={isMobile ? "60" : "50"}
