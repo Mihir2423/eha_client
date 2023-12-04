@@ -148,7 +148,7 @@ const InfoForm = ({ setTakeInput, takeInput }) => {
                 <Field
                   name="email"
                   type="email"
-                  disabled='true'
+                  disabled={true}
                   className="w-full px-1 my-4 border-b-2 focus:border-b-4 focus:outline-none opacity-80 text-neutral-700 text-sm font-normal"
                   placeholder="Enter your email address"
                 />

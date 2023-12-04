@@ -12,7 +12,7 @@ import CartIcon from "../../assets/svg/Cart.svg";
 import ListIcon from "../../assets/svg/listIcom.svg";
 import ProfileIcon from "../../assets/svg/ProfileIcon.svg";
 import Image from "next/image";
-import { useLazyQuery } from "@apollo/client";
+
 import { useSession } from "next-auth/react";
 import { useCart } from "react-use-cart";
 
@@ -23,7 +23,6 @@ import ProfileMenu from "./ProfileMenu";
 import SearchContent from "./SearchContent";
 import UIButton from "../ui/UIButton";
 
-// import { GET_PRODUCT_BY_NAME } from "@/gqloperation/queries";
 import { mainTitle, smallTypo } from "@/styles/typoStyles";
 import localFont from "next/font/local";
 
@@ -32,6 +31,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { product, profile } from "./constant";
+import axios from "axios";
 
 const nova = localFont({
   src: "../../assets/fonts/NovaSlim-Regular.ttf",
@@ -66,6 +66,24 @@ const Header = () => {
     debouncedHandleQuery();
     return () => clearTimeout(debouncedHandleQuery);
   }, [searchInput]);
+
+  const getProducts = async (searchString) => {
+    try {
+      const response = await axios.get(`/api/product?name=${searchString}`);
+      const searchData = await response.json();
+
+      // You can handle the searchData as needed, e.g., redirect to a search results page
+      // or display the results in a dropdown.
+
+      console.log("Search Results:", searchData);
+
+      // For example, redirect to a search results page
+      router.push(`/search?name=${searchInput}`);
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
+  };
+
 
   // const [
   //   getProducts,
@@ -107,7 +125,7 @@ const Header = () => {
   if (searchInput.length !== 0) {
     content = (
       <SearchContent
-        productsData={productsData}
+        // productsData={productsData}
         setSearchInput={setSearchInput}
       />
     );
@@ -121,10 +139,22 @@ const Header = () => {
     setprofileEl(null);
     setIsProfileOpen(false);
   };
-  const handleSearch = () => {
-    if (searchInput !== "") {
-      router.push(`/search?name=${searchInput}`);
-      setSearchInput("");
+  const handleSearch = async () => {
+    try {
+      if (searchInput !== "") {
+        const response = await axios.get(`/api/product?name=${searchInput}`);
+        const searchData = await response.json();
+
+        // You can handle the searchData as needed, e.g., redirect to a search results page
+        // or display the results in a dropdown.
+
+        console.log("Search Results:", searchData);
+
+        // For example, redirect to a search results page
+        router.push(`/search?name=${searchInput}`);
+      }
+    } catch (error) {
+      console.error("Error fetching search results:", error);
     }
   };
 
@@ -168,26 +198,23 @@ const Header = () => {
           <Box className="w-1/2 flex gap-3 md:gap-0 justify-end md:justify-between items-center">
             {!isMobile && (
               <Box className={`relative`}>
-                <OutlinedInput
-                  classes={{
-                    notchedOutline: styles.notchedOutline,
-                  }}
-                  endAdornment={
-                    <SearchIcon
-                      style={{ cursor: "pointer" }}
-                      onClick={handleSearch}
-                    />
-                  }
-                  inputProps={{
-                    style: { padding: "10px 15px" },
-                  }}
-                  placeholder="Search for a product, category or brand"
-                  value={searchInput}
-                  onChange={(e) => handleChange(e)}
-                  sx={inputStyle}
-                />
-                {content}
-              </Box>
+              <OutlinedInput
+                classes={{
+                  notchedOutline: styles.notchedOutline,
+                }}
+                endAdornment={
+                  <SearchIcon style={{ cursor: "pointer" }} onClick={handleSearch} />
+                }
+                inputProps={{
+                  style: { padding: isMobile ? "8px 12px" : "10px 15px" },
+                }}
+                placeholder="Search for a product, category or brand"
+                value={searchInput}
+                onChange={(e) => handleChange(e)}
+                sx={inputStyle}
+              />
+              {content}
+            </Box>
             )}
             <div className="flex items-center justify-between gap-4 md:gap-10">
               <button

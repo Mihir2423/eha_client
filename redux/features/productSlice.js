@@ -12,10 +12,10 @@ const productSlice = createSlice({
       state.prodDetails = action.payload;
     },
     setProduct:(state,action)=>{
-      state.prodDetails=action.payload;
+      state.prodDetails={...action.payload};
     }
   },
 });
 
-export const { getProduct } = productSlice.actions;
+export const { getProduct, setProduct } = productSlice.actions;
 export default productSlice.reducer;

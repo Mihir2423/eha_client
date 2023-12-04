@@ -6,6 +6,8 @@ import SmallTitle from "./SmallTitle";
 import { useRouter } from "next/router";
 
 const NewArrival = ({ posts }) => {
+  // console.log("POSTS New arrival", posts)
+
   const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isSmallMobile = useMediaQuery("(max-width: 568px)");
@@ -17,14 +19,15 @@ const NewArrival = ({ posts }) => {
   const formattedDate = oneMonthAgo.toISOString();
 
   // Get Filtered Array
-  const filteredArray = posts?.data?.filter((item) => {
-    return new Date(item.attributes.updatedAt) > new Date(formattedDate);
+  const filteredArray = posts?.filter((item) => {
+    return new Date(item?.updatedAt) > new Date(formattedDate);
   });
   filteredArray?.sort((a, b) => {
-    const dateA = new Date(a.attributes.updatedAt);
-    const dateB = new Date(b.attributes.updatedAt);
+    const dateA = new Date(a?.updatedAt);
+    const dateB = new Date(b?.updatedAt);
     return dateB - dateA;
   });
+  
   let content;
   content = !isMobile ? (
     <AllProducts totalslides={5} data={filteredArray} />

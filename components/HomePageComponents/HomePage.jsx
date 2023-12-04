@@ -30,7 +30,7 @@ const NewArrival = dynamic(
   }
 );
 
-const HomePage = ({ posts, laptops }) => {
+const HomePage = ({ posts }) => {
   const dispatch = useDispatch();
   const msg = useSelector((state) => state?.addToCart?.successMsg);
   const [success, setSuccess] = React.useState(msg);
@@ -41,9 +41,9 @@ const HomePage = ({ posts, laptops }) => {
     <Box className="p-0 pb-4">
       <BannerSection />
       <DealsForYou posts={posts} />
-      <BestSeller posts={laptops} />
+      <BestSeller posts={posts} />
       <NewArrival posts={posts} />
-      <BestSeller posts={laptops} />
+      <BestSeller posts={posts} />
 
       {success && (
         <Snackbar

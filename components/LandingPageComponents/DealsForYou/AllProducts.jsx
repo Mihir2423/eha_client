@@ -14,7 +14,6 @@ import { Keyboard, Navigation } from "swiper/modules";
 import { Play } from "next/font/google";
 import SingleProduct from "../SingleProduct";
 import { useMediaQuery } from "@mui/material";
-import axios from "axios";
 
 const play = Play({
   weight: ["400"],
@@ -23,25 +22,12 @@ const play = Play({
   preload: false,
 });
 
-
-
 const AllProducts = ({ totalslides, data }) => {
-  console.log(data, "data")
-  // const [productsData, setProductsData] = React.useState([])
+// console.log("ALL product data", data)
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  // React.useEffect(() => {
-  //   const fetchProductData = async () => {
-  //   const response = await axios.get('/api/products')
-  //   if(response.data){
-  //     // console.log(response)
-  //     // console.log("response:",response.data?.[0].price)
-  //     setProductsData(response.data)
+  const product = data;
 
-  //   }
-  // }
-  //   fetchProductData()
-  // }, [])
   return (
     <Swiper
       slidesPerView={totalslides || 4}
@@ -57,14 +43,14 @@ const AllProducts = ({ totalslides, data }) => {
       modules={[Keyboard, Navigation]}
       className={`mySwiper relative ${play.className}`}
     >
-      {/* {data?.map((item, i) => (
-        <SwiperSlide key={i} className={`${ isMobile ? `p-0 py-4` :`p-4`}`}> */}
-          <SingleProduct  />
-        {/* </SwiperSlide>
-      ))} */}
+      {product?.map((item, i) => (
+        <SwiperSlide key={i} className={`${isMobile ? `p-0 py-4` : `p-4`}`}>
+          <SingleProduct item={item} />
+        </SwiperSlide>
+      ))}
       {!isMobile && (
         <div
-          className="absolute top-[30%] left-[2%] z-[20] button-prev-slide w-[80px] h-[80px] grid place-items-center rounded-full p-2"
+          className="absolute top-[30%] left-[2%] z-[20] button-prev-slide w-[60px] h-[60px] grid place-items-center rounded-full p-2"
           style={{ backgroundColor: "black" }}
         >
           <Image src={eastIcon} alt="eastIcon" />
@@ -72,7 +58,7 @@ const AllProducts = ({ totalslides, data }) => {
       )}
       {!isMobile && (
         <div
-          className="absolute top-[30%] z-[20] right-[2%] button-next-slide w-[80px] h-[80px] grid place-items-center rounded-full p-2"
+          className="absolute top-[30%] z-[20] right-[2%] button-next-slide w-[60px] h-[60px] grid place-items-center rounded-full p-2"
           style={{ backgroundColor: "black" }}
         >
           <Image src={westIcon} alt="westIcon" />

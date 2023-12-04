@@ -14,7 +14,7 @@ const SearchDetails = ({ loading }) => {
   const [productsData, setProductsData] = React.useState(null);
 
   React.useEffect(() => {
-    const productData = async () => {
+    const productDatas = async () => {
       try {
         const { data } = await axios.get(`/api/products/${id}`);
         setProductsData(data);
@@ -23,7 +23,7 @@ const SearchDetails = ({ loading }) => {
       }
     };
 
-    productData();
+    productDatas();
   }, [id]); // Add id to the dependency array to re-run the effect when id changes
 
   let content;
