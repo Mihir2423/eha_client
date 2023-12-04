@@ -20,7 +20,7 @@ const email = req.query.email;
       try {
         // Assuming you have a way to identify the profile to update, for example, using a ProfileId
         const profileId = req.query.userId; // Adjust this according to your route configuration
-console.log(profileId)
+// console.log(profileId)
         const updatedProfile = await prisma.profile.update({
           where: { id: parseInt(profileId) },
           data: {

@@ -9,19 +9,20 @@ import { setDetails } from "@/redux/features/userSlice";
 import { useSession } from "next-auth/react";
 import editIconSvg from "../../../assets/svg/editIconSvg.svg";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 
 const InfoForm = ({ setTakeInput, takeInput }) => {
   const [loading, setLoading] = useState(false);
   const [updatedData, setUpdatedData] = useState({});
+  const router = useRouter();
   const userDetail = useSelector((state) => state.user.userDetails.details);
-  console.log("userDetail:", userDetail);
 
   const dispatch = useDispatch();
   const { data: session } = useSession();
   const userDetails = session?.user;
   const id = userDetails?.id;
-console.log("Page id:", id)
+
 
 
   const validationSchema = Yup.object().shape({
@@ -70,15 +71,16 @@ console.log("Page id:", id)
       };
   
       const response = await axios.patch(apiUrl, payload);
-      console.log("API response:", response.data);
+      // console.log("API response:", response.data);
       if (response.ok) {
         setUpdatedData(response.data);
+        router.reload();
       }
   
       setLoading(false);
       dispatch(setDetails(response?.data));
       setTakeInput(false);
-      console.log("API response:", response.data);
+    
     } catch (error) {
       console.error("API error:", error);
       // Handle error appropriately
@@ -146,7 +148,7 @@ console.log("Page id:", id)
                 <Field
                   name="email"
                   type="email"
-                  disabled={!takeInput}
+                  disabled='true'
                   className="w-full px-1 my-4 border-b-2 focus:border-b-4 focus:outline-none opacity-80 text-neutral-700 text-sm font-normal"
                   placeholder="Enter your email address"
                 />

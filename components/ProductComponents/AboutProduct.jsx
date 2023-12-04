@@ -22,7 +22,7 @@ const AboutProduct = ({ data }) => {
   const [available,setAvailable]=React.useState(false);
   const [pin, setPin] = React.useState("208011");
   const pincodeCheck = async (value) => {
-    console.log(setPin);
+    // console.log(setPin);
     const response = await checkPincode(value);
     if(response){
       setAvailable(true);

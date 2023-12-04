@@ -145,7 +145,7 @@ const Header = () => {
     if (typeof window !== "undefined" && window.localStorage) {
       const eleItem = localStorage.getItem("ele");
       setEle(eleItem);
-      console.log(ele);
+      // console.log(ele);
     }
   }, [ele, status]);
 

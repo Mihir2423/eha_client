@@ -10,6 +10,7 @@ import axios from "axios";
 
 const BestSeller = ({ posts }) => {
   const router = useRouter()
+  const { id } = router.query
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isSmallMobile = useMediaQuery("(max-width: 568px)");
   const [productsData, setProductsData] = React.useState([])
@@ -45,7 +46,7 @@ const BestSeller = ({ posts }) => {
       {isMobile && (
         <Box
           className={`bg-[#EA1D25] absolute w-[100px] flex items-center justify-center py-2 top-[-15px] left-1/2 -translate-x-1/2 `}
-          onClick={() => router.push(`/category?id=1`)}
+          onClick={() => router.push(`/category?id=${id}`)}
         >
           <span className="text-white font-[NovaThai]">
             VIEW ALL

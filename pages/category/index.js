@@ -9,7 +9,7 @@ const BestSellers = () => {
   const router = useRouter();
   const { id } = router.query;
   const isMobile = useMediaQuery("(max-width: 768px)");
-
+  
   const filterOption = useSelector((state) => state.filter);
   return (
     <Box>

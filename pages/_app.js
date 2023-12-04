@@ -12,7 +12,7 @@ import NextTopLoader from 'nextjs-toploader';
 import Provider from "@/context/AuthContext";
 
 export default function App({ Component, pageProps, session }) {
-  console.log("session", session);
+
   const isMobile = useMediaQuery("(max-width: 768px)");
   <Head>
     <meta

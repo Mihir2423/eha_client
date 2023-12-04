@@ -18,14 +18,14 @@ const seedDatabase = async () => {
       },
     });
 
-    console.log("user created: ",user1)
+    // console.log("user created: ",user1)
 
     
 
     
     // Seed other entities (products, orders, categories, etc.) if needed
 
-    console.log('Database seeded successfully!');
+    // console.log('Database seeded successfully!');
   } catch (error) {
     console.error('Error seeding database:', error);
   } finally {

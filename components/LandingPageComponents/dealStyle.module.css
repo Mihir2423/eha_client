@@ -33,11 +33,14 @@
   padding-left: 10px;
   padding-right: 10px;
   cursor: pointer;
+  position: relative; /* Added for positioning child elements */
 }
 
 .singleProd {
   max-width: 255px;
   transition: 0.3s;
+  overflow: hidden; /* Prevents child overflow */
+  position: relative; /* Added for positioning child elements */
 }
 
 .descContainer {
@@ -63,23 +66,19 @@
   color: rgba(0, 154, 76, 1);
 }
 
-.cartBtns {
+.cartBtns,
+.searchImgContainer {
   position: absolute;
-  bottom: 30px;
+  bottom: 10px; /* Adjusted to align with the bottom */
   width: 100%;
   opacity: 0;
-  transform: rotateX(45deg);
   transition: all 0.3s;
 }
 
 .searchImgContainer {
-  position: absolute;
-  top: 30%;
-  left: 45%;
-  transform: translate(-80%, -50%);
-  opacity: 0;
-  transform: translateY(-20px);
-  transition: all 0.3s;
+  top: 10%; /* Adjusted to align with the top */
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .singleProdContainer:hover {
@@ -91,10 +90,7 @@
   opacity: 0;
 }
 
-.singleProdContainer:hover .cartBtns {
-  transform: rotateX(0deg);
-  opacity: 1;
-}
+.singleProdContainer:hover .cartBtns,
 .singleProdContainer:hover .searchImgContainer {
   transform: translateY(0px);
   opacity: 1;

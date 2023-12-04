@@ -6,7 +6,7 @@ import React from "react";
 
 const Profile = ({ profile }) => {
   const {data:session, status} = useSession();
-  console.log(session, status)
+  // console.log(session, status)
   return (
     <Box className="mt-12">
       <MyOrdersPage profile={profile} />

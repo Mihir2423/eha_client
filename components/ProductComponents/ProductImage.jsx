@@ -9,7 +9,7 @@ import AddBtns from "./AddBtns";
 const ProductImage = ({ data }) => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [currImage, setCurrImage] = React.useState(0);
-  console.log(data, "dataImage");
+  // console.log(data, "dataImage");
   return (
     <div>
       <div className={`flex pl-6 text-black`}>

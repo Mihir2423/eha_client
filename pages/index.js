@@ -4,7 +4,8 @@ import { getToken } from "@/redux/features/userSlice";
 import { useDispatch } from "react-redux";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
-
+import { Nova_Flat } from "next/font/google";
+const novaFlat = Nova_Flat({subsets:["latin"], style: "normal", weight: "400", display: "swap"})
 const Home = ({ posts, filteredItems }) => {
   // const {data:session, status} = useSession();
   // console.log(session, status)
@@ -23,7 +24,7 @@ const Home = ({ posts, filteredItems }) => {
         <title>EHA Shivam Technologies | Dashboard</title>
         <meta name="description" content="Get all electronics products" />
       </Head>
-      <HomePage posts={posts} laptops={filteredItems} />
+      <HomePage posts={posts} laptops={filteredItems} className={novaFlat.className}/>
     </>
   );
 };

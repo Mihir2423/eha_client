@@ -26,6 +26,7 @@ const play = Play({
 
 
 const AllProducts = ({ totalslides, data }) => {
+  console.log(data, "data")
   // const [productsData, setProductsData] = React.useState([])
   const isMobile = useMediaQuery("(max-width: 768px)");
 
@@ -56,11 +57,11 @@ const AllProducts = ({ totalslides, data }) => {
       modules={[Keyboard, Navigation]}
       className={`mySwiper relative ${play.className}`}
     >
-      {data?.map((item, i) => (
-        <SwiperSlide key={i} className={`${ isMobile ? `p-0 py-4` :`p-4`}`}>
-          <SingleProduct item={item} />
-        </SwiperSlide>
-      ))}
+      {/* {data?.map((item, i) => (
+        <SwiperSlide key={i} className={`${ isMobile ? `p-0 py-4` :`p-4`}`}> */}
+          <SingleProduct  />
+        {/* </SwiperSlide>
+      ))} */}
       {!isMobile && (
         <div
           className="absolute top-[30%] left-[2%] z-[20] button-prev-slide w-[80px] h-[80px] grid place-items-center rounded-full p-2"

@@ -33,7 +33,7 @@ const ProfileMenu = ({
       onClose={handleCloseProfile}
     >
       {/* {session?.user.username} */}
-      {profile.slice(0, -1).map((item) => (
+      {profile?.slice(0, -1).map((item) => (
         <MenuItem
           key={item.id}
           onClick={handleCloseProfile}

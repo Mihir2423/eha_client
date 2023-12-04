@@ -1,5 +1,6 @@
 // useProductsData.js
 import { useQuery } from "@apollo/client";
+import React,{useState} from "react";
 import {
   GET_NEW_ARRIVALS,
   GET_PRODUCT_BY_CATEGORY,
@@ -20,8 +21,8 @@ const useProductsData = (id, sortField, dir) => {
   };
 
   // useQuery
-  const { data, loading, error } = useQuery(query, variables);
-
+  // const { data, loading, error } = useQuery(query, variables);
+const [loading, setLoading] = useState(true);
   if (loading) content = <h1>Loading...</h1>;
   else if (error) content = <h1>Something went wrong</h1>;
   else {

@@ -10,7 +10,7 @@ const ProfileCard = ({ edit, setTakeInput, takeInput }) => {
   const { data: session, status } = useSession();
   const userDetails = session?.user;
   const userDetail = useSelector((state) => state.user.userDetails.details);
-  console.log(userDetail);
+  // console.log(userDetail);
   return !userDetails ? (
     <Box
       className={`${nova_thai.className} flex flex-col justify-center rounded-[8px] text-center py-6 pt-[2px] relative bg-white`}

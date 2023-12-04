@@ -13,7 +13,15 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 
 const ProductDetail = ({product}) => {
- console.log("product",product)
+  const router = useRouter();
+  const { id } = router.query;
+  const dispatch = useDispatch();
+  const { data: session } = useSession();
+  useEffect(() => {
+    dispatch(getProduct(id));
+  }, [id,dispatch]);
+  
+  
   
 
 

@@ -19,7 +19,7 @@ import NextTopLoader from "nextjs-toploader";
 const Login = () => {
   const router = useRouter();
   const {data:session, status} = useSession();
-  console.log(session, status)
+  // console.log(session, status)
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const [Error, setError] = React.useState(null);

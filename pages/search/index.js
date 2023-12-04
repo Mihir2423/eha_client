@@ -1,25 +1,30 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { useQuery } from "@apollo/client";
-import { GET_PRODUCT_BY_NAME } from "@/gqloperation/queries";
 import { Box } from "@mui/material";
+import axios from "axios"; // Import Axios
+
 import SingleProduct from "@/components/LandingPageComponents/SingleProduct";
 import Title from "@/components/LandingPageComponents/Title";
 
-const SearchDetails = () => {
+const SearchDetails = ({ loading }) => {
   const router = useRouter();
-  const { name } = router.query;
-  console.log(name);
+  const { name, id } = router.query;
+  // console.log(name, id);
+  const error = false;
+  const [productsData, setProductsData] = React.useState(null);
 
-  const {
-    data: { products: { data: productsData } = {} } = {},
-    loading,
-    error,
-  } = useQuery(GET_PRODUCT_BY_NAME, {
-    variables: {
-      searchString: name,
-    },
-  });
+  React.useEffect(() => {
+    const productData = async () => {
+      try {
+        const { data } = await axios.get(`/api/products/${id}`);
+        setProductsData(data);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
+
+    productData();
+  }, [id]); // Add id to the dependency array to re-run the effect when id changes
 
   let content;
   if (loading) content = <h1>Loading...</h1>;
@@ -31,7 +36,7 @@ const SearchDetails = () => {
       </Box>
     ));
   }
-  console.log(productsData);
+  // console.log(productsData);
   return (
     <>
       <Box className={`px-20 pt-10`}>

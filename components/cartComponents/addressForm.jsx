@@ -69,7 +69,7 @@ const AddressForm = ({ nextStep, prevStep }) => {
   
       if (response.ok) {
         const responseData = await response.json();
-        console.log('Address submitted successfully:', responseData);
+        // console.log('Address submitted successfully:', responseData);
         // Additional logic if needed
       } else {
         console.error('Failed to submit address:', response.statusText);

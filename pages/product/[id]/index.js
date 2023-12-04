@@ -29,7 +29,7 @@ const ProductDetails = () => {
     productData();
   }, []); 
 
-  console.log(product);
+  // console.log("Index page product",product);
 
   return (
     <>
