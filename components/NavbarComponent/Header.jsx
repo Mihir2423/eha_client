@@ -41,7 +41,6 @@ const nova = localFont({
 const Header = () => {
   const router = useRouter();
   const { items } = useCart();
-
   const [totalItems, setTotalItems] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [profileEl, setprofileEl] = useState(null);
@@ -69,11 +68,12 @@ const Header = () => {
 
   const getProducts = async (searchString) => {
     try {
-      const response = await axios.get(`/api/product?name=${searchString}`);
+      const response = await axios.get(`/api/products?name=${searchString}`);
       const searchData = await response.json();
-
-      // You can handle the searchData as needed, e.g., redirect to a search results page
+      console.log("Searched Data",searchData.data)
+      
       // or display the results in a dropdown.
+
 
       console.log("Search Results:", searchData);
 
@@ -83,7 +83,6 @@ const Header = () => {
       console.error("Error fetching search results:", error);
     }
   };
-
 
   // const [
   //   getProducts,
@@ -125,7 +124,7 @@ const Header = () => {
   if (searchInput.length !== 0) {
     content = (
       <SearchContent
-        // productsData={productsData}
+        productsData={productsData}
         setSearchInput={setSearchInput}
       />
     );
@@ -144,9 +143,6 @@ const Header = () => {
       if (searchInput !== "") {
         const response = await axios.get(`/api/product?name=${searchInput}`);
         const searchData = await response.json();
-
-        // You can handle the searchData as needed, e.g., redirect to a search results page
-        // or display the results in a dropdown.
 
         console.log("Search Results:", searchData);
 
@@ -198,23 +194,26 @@ const Header = () => {
           <Box className="w-1/2 flex gap-3 md:gap-0 justify-end md:justify-between items-center">
             {!isMobile && (
               <Box className={`relative`}>
-              <OutlinedInput
-                classes={{
-                  notchedOutline: styles.notchedOutline,
-                }}
-                endAdornment={
-                  <SearchIcon style={{ cursor: "pointer" }} onClick={handleSearch} />
-                }
-                inputProps={{
-                  style: { padding: isMobile ? "8px 12px" : "10px 15px" },
-                }}
-                placeholder="Search for a product, category or brand"
-                value={searchInput}
-                onChange={(e) => handleChange(e)}
-                sx={inputStyle}
-              />
-              {content}
-            </Box>
+                <OutlinedInput
+                  classes={{
+                    notchedOutline: styles.notchedOutline,
+                  }}
+                  endAdornment={
+                    <SearchIcon
+                      style={{ cursor: "pointer" }}
+                      onClick={handleSearch}
+                    />
+                  }
+                  inputProps={{
+                    style: { padding: isMobile ? "8px 12px" : "10px 15px" },
+                  }}
+                  placeholder="Search for a product, category or brand"
+                  value={searchInput}
+                  onChange={(e) => handleChange(e)}
+                  sx={inputStyle}
+                />
+                {content}
+              </Box>
             )}
             <div className="flex items-center justify-between gap-4 md:gap-10">
               <button
@@ -285,9 +284,7 @@ const Header = () => {
               isProfileOpen={isProfileOpen}
               handleCloseProfile={handleCloseProfile}
               profile={profile}
-
-            /> 
-            
+            />
           </Box>
         </Box>
         {isMobile && (

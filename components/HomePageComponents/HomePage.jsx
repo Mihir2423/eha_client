@@ -38,7 +38,8 @@ const HomePage = ({ posts }) => {
     setSuccess(msg);
   }, [msg]);
   return (
-    <Box className="p-0 pb-4">
+    <div>
+       <Box className="p-0 pb-4">
       <BannerSection />
       <DealsForYou posts={posts} />
       <BestSeller posts={posts} />
@@ -74,6 +75,8 @@ const HomePage = ({ posts }) => {
         </Snackbar>
       )}
     </Box>
+    </div>
+   
   );
 };
 

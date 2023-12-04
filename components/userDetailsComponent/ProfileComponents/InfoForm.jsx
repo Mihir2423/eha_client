@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Alert, Box, Button, Snackbar, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -19,10 +19,33 @@ const InfoForm = ({ setTakeInput, takeInput }) => {
   const userDetail = useSelector((state) => state.user.userDetails.details);
 
   const dispatch = useDispatch();
+
   const { data: session } = useSession();
   const userDetails = session?.user;
   const id = userDetails?.id;
 
+  const fetchUserData = async () => {
+    try {
+      const apiUrl = `/api/signup/${id}`;
+      const headers = {
+        Authorization: `Bearer ${session?.jwt}`,
+      };
+
+      const response = await axios.get(apiUrl, { headers });
+
+      if (response.ok) {
+        const userData = response.data;
+        dispatch(setDetails(userData)); // Update Redux store with fetched data
+      } else {
+        // Handle API error here
+        console.error("API error:", response.statusText);
+      }
+    } catch (error) {
+      console.error("API error:", error);
+      // Handle other errors appropriately
+    }
+  };
+  
 
 
   const validationSchema = Yup.object().shape({
@@ -71,14 +94,12 @@ const InfoForm = ({ setTakeInput, takeInput }) => {
       };
   
       const response = await axios.patch(apiUrl, payload);
-      // console.log("API response:", response.data);
       if (response.ok) {
         setUpdatedData(response.data);
         router.reload();
       }
   
       setLoading(false);
-      dispatch(setDetails(response?.data));
       setTakeInput(false);
     
     } catch (error) {
@@ -87,6 +108,11 @@ const InfoForm = ({ setTakeInput, takeInput }) => {
     }
   };
   
+  useEffect(() => {
+    // Fetch user data when the component mounts
+    fetchUserData();
+  }, [id, session]);
+
   return (
     <Formik
       initialValues={initialValues}

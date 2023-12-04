@@ -5,6 +5,7 @@ import FilterSort from "./FilterSort";
 import FilterSortModal from "./FilterSortModal";
 
 const BestSellerPage = ({ id, sortField, dir, isMobile }) => {
+  console.log('id', id)
   let content;
   content = isMobile ? (
     <div>

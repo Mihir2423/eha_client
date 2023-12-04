@@ -1,10 +1,10 @@
 // useProductsData.js
-import { useQuery } from "@apollo/client";
+// import { useQuery } from "@apollo/client";
 import React,{useState} from "react";
-import {
-  GET_NEW_ARRIVALS,
-  GET_PRODUCT_BY_CATEGORY,
-} from "@/gqloperation/queries";
+// import {
+//   GET_NEW_ARRIVALS,
+//   GET_PRODUCT_BY_CATEGORY,
+// } from "@/gqloperation/queries";
 import { Box } from "@mui/material";
 import SingleProduct from "@/components/LandingPageComponents/SingleProduct";
 import styles from "./prod.module.css";
@@ -26,7 +26,7 @@ const [loading, setLoading] = useState(true);
   if (loading) content = <h1>Loading...</h1>;
   else if (error) content = <h1>Something went wrong</h1>;
   else {
-    title = id === 1 ? "BEST SELLING LAPTOPS" : "NEW ARRIVALS";
+    // title = id === 1 ? "BEST SELLING LAPTOPS" : "NEW ARRIVALS";
     let productsData = data.products.data;
     if (dir === "desc") {
       productsData = [...productsData].reverse();
