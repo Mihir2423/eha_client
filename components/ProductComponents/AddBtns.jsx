@@ -129,13 +129,14 @@ const AddBtns = () => {
   const { addItem } = useCart();
 const [ele, setEle] = React.useState(null);
   const addToCart = () => {
-    if (item) {
-      addItem({
-        id: id,
-        name: item?.name,
-        price: item?.price,
-        img: item?.image,
-      });
+    const addToCart = () => {
+          addItem({
+            id:id,
+            name: item?.name,
+            price: item?.price,
+            img: item?.image,
+          });
+        };
     }
   };
 
