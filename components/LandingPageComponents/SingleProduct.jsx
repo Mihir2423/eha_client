@@ -23,7 +23,7 @@ const nova_thai = localFont({
 });
 
 const SingleProduct = ({ item }) => {
- 
+  // console.log(item);
   const { addItem } = useCart();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isSmallMobile = useMediaQuery("(max-width: 380px)");
@@ -61,7 +61,7 @@ const SingleProduct = ({ item }) => {
           {/* Details Start*/}
           <Image
             alt="product"
-            src={laptopImg}
+            src={item?.image}
             width={200}
             height={200}
             style={{ width: "100%" }}

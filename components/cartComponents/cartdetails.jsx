@@ -45,7 +45,7 @@ export default function CartDetails({ nextStep, prevStep }) {
         >
           <center>
             <Image
-              src={ productImage||item.img}
+              src={item?.img}
               alt={item.name ||""}
               width={isMobile ? "200" : "150"}
               height={isMobile ? "60" : "50"}

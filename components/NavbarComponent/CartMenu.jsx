@@ -18,7 +18,7 @@ const CartMenu = ({ anchorEl, isCartOpen, handleCloseCart }) => {
   };
 
   let content;
-
+  // console.log(items);
   if (isEmpty) {
     content = <Typography className="p-2">Cart is empty!!</Typography>;
   } else if (items && items.length > 0) { // Check if items is an array and has elements
@@ -27,7 +27,7 @@ const CartMenu = ({ anchorEl, isCartOpen, handleCloseCart }) => {
         <div className="flex items-center">
           <Image
             // src={item.img}
-            src={laptopImg}
+            src={item?.img}
             alt={item.name}
             width={70}
             height={70}

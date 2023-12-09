@@ -20,7 +20,7 @@ const ProductImage = ({ data }) => {
             {/* {data?.attributes?.image?.data?.map((item, i) => ( */}
               <Image
                 // key={i}
-                src={laptopImg}//||item?.attributes?.url
+                src={data?.image}//||item?.attributes?.url
                 alt="product"
                 width={100}
                 height={100}
@@ -42,7 +42,7 @@ const ProductImage = ({ data }) => {
         >
           <Image
             // src={data?.attributes?.image?.data[currImage]?.attributes?.url}
-            src={laptopImg}
+            src={data?.image}
             alt="product"
             width={100}
             height={100}
@@ -51,13 +51,13 @@ const ProductImage = ({ data }) => {
           />
           {isMobile && (
             <div className={`flex gap-[7px]`}>
-              {data?.attributes?.image?.data?.map((_, i) => (
+              {data?.data?.image?.map((img, i) => (
                 <div
                   key={i}
                   className={`w-[13px] h-[13px] rounded-full mt-2 ${
                     currImage === i ? `bg-[#F61C0D]` : `bg-[#818181]`
                   }`}
-                  onClick={() => setCurrImage(i)}
+                  onClick={() => setCurrImage(img)}
                 />
               ))}
             </div>
