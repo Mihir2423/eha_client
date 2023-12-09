@@ -23,7 +23,7 @@ const nova_thai = localFont({
 });
 
 const SingleProduct = ({ item }) => {
-  console.log(item);
+  // console.log(item);
   const { addItem } = useCart();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isSmallMobile = useMediaQuery("(max-width: 380px)");

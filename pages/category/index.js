@@ -10,25 +10,24 @@ const BestSellers = () => {
 
   const isMobile = useMediaQuery("(max-width: 768px)");
   const filterOption = useSelector((state) => state?.product?.prodDetails?.data);
-
+  console.log("All catogary",filterOption);
 if (!filterOption) {
   // Handle loading state, e.g., show a loading spinner
   return <Loading/>;
 }
 
-console.log(filterOption);
+
   return (
     <Box>
       <Head>
         <title>EHA | Category </title>
         <description>Get all electronics products</description>
       </Head>
-      {/*<BestSellerPage
-        id={filterOption.id}
-        sortField={filterOption.field}
-        dir={filterOption.sort}
+      <BestSellerPage
+        id={1}
+        data={filterOption}
         isMobile={isMobile}
-      />*/}
+      />
     </Box>
   );
 };

@@ -51,13 +51,13 @@ const ProductImage = ({ data }) => {
           />
           {isMobile && (
             <div className={`flex gap-[7px]`}>
-              {data?.image?.map((_, i) => (
+              {data?.data?.image?.map((img, i) => (
                 <div
                   key={i}
                   className={`w-[13px] h-[13px] rounded-full mt-2 ${
                     currImage === i ? `bg-[#F61C0D]` : `bg-[#818181]`
                   }`}
-                  onClick={() => setCurrImage(i)}
+                  onClick={() => setCurrImage(img)}
                 />
               ))}
             </div>
