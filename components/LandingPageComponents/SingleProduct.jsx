@@ -45,7 +45,7 @@ const SingleProduct = ({ item }) => {
       id: item?.id,
       name: item?.name,
       price: item?.price,
-      img: item?.url,
+      img: item?.image,
     });
     dispatch(addedMsg());
   };
@@ -61,7 +61,7 @@ const SingleProduct = ({ item }) => {
           {/* Details Start*/}
           <Image
             alt="product"
-            src={laptopImg}//{item?.image}
+            src={item?.image}
             width={200}
             height={200}
             style={{ width: "100%" }}

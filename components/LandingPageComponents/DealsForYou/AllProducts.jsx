@@ -23,7 +23,7 @@ const play = Play({
 });
 
 const AllProducts = ({ totalslides, data }) => {
-// console.log("ALL product data", data)
+  // console.log("ALL product data", data)
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const product = data;

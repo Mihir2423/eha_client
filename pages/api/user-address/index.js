@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 
     try {
       // Save the form data to your database using Prisma
-      const savedAddress = await prisma.Address.create({
+      const savedAddress = await prisma.UserAddress.create({
         data: {
           name,
           address1,

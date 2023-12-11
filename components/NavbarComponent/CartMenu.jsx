@@ -1,11 +1,22 @@
 import React, { useState } from "react";
-import { IconButton, Menu, MenuItem, Typography, Snackbar, SnackbarContent } from "@mui/material";
+import {
+  IconButton,
+  Menu,
+  MenuItem,
+  Typography,
+  Snackbar,
+  SnackbarContent,
+} from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "react-use-cart";
 import { useSession } from "next-auth/react";
-import { RemoveCircleOutlined,CheckCircle,CloseSharp } from "@mui/icons-material";
-import { nova_thai,nova } from "@/utilities/font";
+import {
+  RemoveCircleOutlined,
+  CheckCircle,
+  CloseSharp,
+} from "@mui/icons-material";
+import { nova_thai, nova } from "@/utilities/font";
 import laptopImg from "../../assets/svg/laptopImg.svg";
 const CartMenu = ({ anchorEl, isCartOpen, handleCloseCart }) => {
   const { data: session } = useSession();
@@ -18,10 +29,11 @@ const CartMenu = ({ anchorEl, isCartOpen, handleCloseCart }) => {
   };
 
   let content;
-  // console.log(items);
+  console.log(items);
   if (isEmpty) {
     content = <Typography className="p-2">Cart is empty!!</Typography>;
-  } else if (items && items.length > 0) { // Check if items is an array and has elements
+  } else if (items && items.length > 0) {
+    // Check if items is an array and has elements
     content = items.map((item) => (
       <MenuItem key={item.id} onClick={handleCloseCart}>
         <div className="flex items-center">
@@ -34,7 +46,9 @@ const CartMenu = ({ anchorEl, isCartOpen, handleCloseCart }) => {
             className="w-[40px] h-[40px] object-cover rounded-md m-1"
           />
           <Typography>
-            <span className={`text-sm font-semibold ${nova_thai.className} m-1`}>
+            <span
+              className={`text-sm font-semibold ${nova_thai.className} m-1`}
+            >
               {item.name}
             </span>
             <span
@@ -92,30 +106,31 @@ const CartMenu = ({ anchorEl, isCartOpen, handleCloseCart }) => {
       </Menu>
       {success && (
         <Snackbar
-  open={true}
-  autoHideDuration={6000}
-  onClose={() => setSuccess(false)}
-  anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
->
-  <SnackbarContent
-    message={
-      <div className="flex items-center">
-        <CheckCircle style={{ marginRight: "8px" }} /> {/* Add the icon here */}
-        Item Removed Successfully from Cart
-      </div>
-    }
-    action={
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={() => setSuccess(false)}
-      >
-        <CloseSharp fontSize="small" />
-      </IconButton>
-    }
-  />
-</Snackbar>
+          open={true}
+          autoHideDuration={6000}
+          onClose={() => setSuccess(false)}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+          <SnackbarContent
+            message={
+              <div className="flex items-center">
+                <CheckCircle style={{ marginRight: "8px" }} />{" "}
+                {/* Add the icon here */}
+                Item Removed Successfully from Cart
+              </div>
+            }
+            action={
+              <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={() => setSuccess(false)}
+              >
+                <CloseSharp fontSize="small" />
+              </IconButton>
+            }
+          />
+        </Snackbar>
       )}
     </div>
   );

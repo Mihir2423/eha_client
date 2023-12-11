@@ -5,7 +5,7 @@ import FilterSort from "./FilterSort";
 import FilterSortModal from "./FilterSortModal";
 
 const BestSellerPage = ({ id, isMobile,data }) => {
-  console.log('id', id)
+  console.log('id', data)
   let content;
   content = isMobile ? (
     <div>
@@ -18,10 +18,10 @@ const BestSellerPage = ({ id, isMobile,data }) => {
         <FilterSort />
       </Grid>
       <Grid item xs={9} md={9} xl={9}>
-        <ProductsSide
+      <ProductsSide
           id={id}
-          sortField={sortField}
-          dir={dir}
+          // sortField={sortField}
+          // dir={dir}
           isMobile={isMobile}
         />
       </Grid>

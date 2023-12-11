@@ -19,7 +19,7 @@ import { useSession } from "next-auth/react";
 export default function CartDetails({ nextStep, prevStep }) {
   const { isEmpty, items, cartTotal, removeItem, updateItemQuantity } =
     useCart();
-
+// console.log("items",items)
   const handleRemoveItem = (itemId) => {
     removeItem(itemId);
   };

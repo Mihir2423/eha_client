@@ -2,64 +2,71 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { nova_thai } from "@/utilities/font";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 
 const AddressForm = ({ nextStep, prevStep }) => {
+  const {data: session, status} = useSession();
+  const id = session?.user.id;
+  const [address, setAddress] = React.useState(null);
+
   const validationSchema = Yup.object({
     name: Yup.string().required("Your name is required"),
+    telephone: Yup.string(),
+    email: Yup.string().email("Invalid email").required("Email is required"),
     address1: Yup.string().required("Address line 1 is required"),
+    address2: Yup.string(),
+    landmark: Yup.string(),
+    zip: Yup.string().required("Zip/Postal code is required"),
     city: Yup.string().required("City is required"),
     state: Yup.string().required("State/Province is required"),
-    zip: Yup.string().required("Zip/Postal code is required"),
     country: Yup.string().required("Country is required"),
-    telephone: Yup.string().required("Telephone is required"),
-    email: Yup.string().email("Invalid email").required("Email is required"),
   });
 
   const initialValues = {
     name: "",
-    address1: "",
-    address2: "",
-    city: "",
-    state: "",
-    zip: "",
-    country: "",
     telephone: "",
     email: "",
+    address1: "",
+    address2: "",
+    landmark: "",
+    zip: "",
+    city: "",
+    state: "",
+    country: "",
   };
 
-  const onSubmit = async (values) => {
+  const handleSubmit = async (values) => {
+    console.log("clicked");
     try {
-      const response = await fetch('/api/submit-address', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      });
+      // Make a POST request to the API endpoint
+      const response = await axios.post("/api/submit-address", { ...values, id });
   
-      if (response.ok) {
-        const responseData = await response.json();
-        // console.log('Address submitted successfully:', responseData);
-        // Additional logic if needed
+      if (response.status === 201) {
+        const responseData = response.data;
+        setAddress(responseData);
+        console.log(responseData);
+        nextStep();
       } else {
-        console.error('Failed to submit address:', response.statusText);
+        console.error("Failed to submit address:", response.statusText);
       }
     } catch (error) {
-      console.error('API request error:', error);
+      console.error("API request error:", error);
     }
   };
+
   return (
     <center>
-      <div className={`md:w-[900px] relative  bg-white text-black px-[80px] py-5 rounded-2xl  shadow-2xl ${nova_thai.className} text-left `}>
-        <h1 className="text-4xl font-bold mb-4">Delivery Address</h1>
-        <hr />
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={onSubmit}
-        >
-          {({ errors, touched }) => (
-            <Form className="font-lg ml-4 mr-4">
+    <div className={`md:w-[900px] relative bg-white text-black px-[80px] py-5 rounded-2xl shadow-2xl ${nova_thai.className} text-left`}>
+      <h1 className="text-4xl font-bold mb-4">Delivery Address</h1>
+      <hr />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ errors, touched }) => (
+          <Form className="font-lg ml-4 mr-4">
               <label className="block mt-4 ">
                 <span className="text-gray-700">Full name</span>
                 <Field
@@ -207,7 +214,6 @@ const AddressForm = ({ nextStep, prevStep }) => {
                 </label>
               </div>
               <div className="mt-4 flex justify-center mr-5 text-white space-x-4">
-                
                 <button
                   type="button"
                   className="text-black h-10 px-8 bg-white rounded-lg transition-colors duration-150 focus:shadow-outline border-2 border-red-500 hover:bg-red-600 hover:text-white shadow-md"
@@ -218,7 +224,6 @@ const AddressForm = ({ nextStep, prevStep }) => {
                 <button
                   type="submit"
                   className="h-10 px-5 bg-red-600 rounded-lg transition-colors duration-150 focus:shadow-outline shadow-md"
-                  onClick={nextStep}
                 >
                   Submit & Continue
                 </button>

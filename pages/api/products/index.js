@@ -1,6 +1,12 @@
 import { prisma } from "@/prisma/index";
-
+const data =[
+  
+       
+   
+]
 export default async function handler(req, res) {
+  
+
   if (req.method === "POST") {
     const {
       name,
@@ -13,6 +19,7 @@ export default async function handler(req, res) {
       brand,
       rating,
     } = req.body;
+
     try {
       const product = await prisma.Product.create({
         data: {

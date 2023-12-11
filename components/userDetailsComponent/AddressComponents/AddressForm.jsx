@@ -5,60 +5,60 @@ import { nova_thai } from "@/utilities/font";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
-import { setDetails } from "@/redux/features/userSlice";
+// import { setDetails } from "@/redux/features/userSlice";
+import { addAddress } from "@/redux/features/addressSlice";
 
 const AddressForm = ({ setAdd, profileId }) => {
   const dispatch = useDispatch();
+  const {data: session, status} = useSession();
+  const id = session?.user.id;
+  const [address, setAddress] = React.useState(null);
+
   const validationSchema = Yup.object({
     name: Yup.string().required("Your name is required"),
+    telephone: Yup.string(),
+    email: Yup.string().email("Invalid email").required("Email is required"),
     address1: Yup.string().required("Address line 1 is required"),
+    address2: Yup.string(),
+    landmark: Yup.string(),
+    zip: Yup.string().required("Zip/Postal code is required"),
     city: Yup.string().required("City is required"),
     state: Yup.string().required("State/Province is required"),
-    zip: Yup.string().required("Zip/Postal code is required"),
     country: Yup.string().required("Country is required"),
-    telephone: Yup.string().required("Telephone is required"),
-    email: Yup.string().email("Invalid email").required("Email is required"),
   });
+
 
   const initialValues = {
     name: "",
-    address1: "",
-    address2: "",
-    city: "",
-    state: "",
-    zip: "",
-    country: "",
     telephone: "",
     email: "",
+    address1: "",
+    address2: "",
+    landmark: "",
+    zip: "",
+    city: "",
+    state: "",
+    country: "",
   };
-  const { data: session } = useSession();
 
-  const onSubmit = async (values) => {
+  const handleSubmit = async (values) => {
+    console.log("clicked");
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_NEXT_API_PUBLIC_URL}/api/profiles/${profileId}`;
-      const payload = {
-        data: {
-          userAddress: {
-            values,
-          },
-        },
-      };
-
-      const headers = {
-        Authorization: `Bearer ${session?.jwt}`,
-      };
-
-      const response = await axios.put(apiUrl, payload, { headers });
-      console.log(response?.data?.data?.attributes, "response");
-
-      // Handle the response as needed
-      dispatch(setDetails(response.data?.data?.attributes));
+      // Make a POST request to the API endpoint
+      const response = await axios.post("/api/user-address", { ...values, id });
+  
+      if (response.status === 201) {
+        const responseData = response.data;
+        setAddress(responseData);
+        console.log(responseData);
+        dispatch(addAddress(responseData));
+      } else {
+        console.error("Failed to submit address:", response.statusText);
+      }
     } catch (error) {
-      console.error("API error:", error);
+      console.error("API request error:", error);
     }
-
-    setAdd(false);
-  };
+  }
 
   return (
     <center>
@@ -70,7 +70,7 @@ const AddressForm = ({ setAdd, profileId }) => {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={onSubmit}
+          onSubmit={handleSubmit}
         >
           {({ errors, touched }) => (
             <Form className="font-lg ml-4 mr-4">

@@ -7,7 +7,8 @@ import Head from "next/head";
 import Loading from "@/utils/loading";
 
 const BestSellers = () => {
-
+  const router = useRouter();
+  const {id} = router.query;
   const isMobile = useMediaQuery("(max-width: 768px)");
   const filterOption = useSelector((state) => state?.product?.prodDetails?.data);
   console.log("All catogary",filterOption);
@@ -24,7 +25,7 @@ if (!filterOption) {
         <description>Get all electronics products</description>
       </Head>
       <BestSellerPage
-        id={1}
+        id={id}
         data={filterOption}
         isMobile={isMobile}
       />
