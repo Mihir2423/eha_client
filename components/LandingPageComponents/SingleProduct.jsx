@@ -61,7 +61,7 @@ const SingleProduct = ({ item }) => {
           {/* Details Start*/}
           <Image
             alt="product"
-            src={item?.image}
+            src={laptopImg}//{item?.image}
             width={200}
             height={200}
             style={{ width: "100%" }}

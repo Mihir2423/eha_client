@@ -24,29 +24,31 @@ const InfoForm = ({ setTakeInput, takeInput }) => {
   const userDetails = session?.user;
   const id = userDetails?.id;
 
-  const fetchUserData = async () => {
-    try {
-      const apiUrl = `/api/signup/${id}`;
-      const headers = {
-        Authorization: `Bearer ${session?.jwt}`,
-      };
+  // const fetchUserData = async () => {
+  //   try {
+  //     const apiUrl = `/api/signup/${id}`;
+  //     const headers = {
+  //       Authorization: `Bearer ${session?.jwt}`,
+  //     };
 
-      const response = await axios.get(apiUrl, { headers });
+  //     const response = await axios.get(apiUrl, { headers });
 
-      if (response.ok) {
-        const userData = response.data;
-        dispatch(setDetails(userData)); // Update Redux store with fetched data
-      } else {
-        // Handle API error here
-        console.error("API error:", response.statusText);
-      }
-    } catch (error) {
-      console.error("API error:", error);
-      // Handle other errors appropriately
-    }
-  };
+  //     if (response.ok) {
+  //       const userData = response.data;
+  //       dispatch(setDetails(userData)); // Update Redux store with fetched data
+  //     } else {
+  //       // Handle API error here
+  //       console.error("API error:", response.statusText);
+  //     }
+  //   } catch (error) {
+  //     console.error("API error:", error);
+  //     // Handle other errors appropriately
+  //   }
+  // };
   
 
+ 
+  
 
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
@@ -66,7 +68,9 @@ const InfoForm = ({ setTakeInput, takeInput }) => {
     phoneNumber: userDetails?.phoneNumber || "",
     landlineNo: userDetails?.landlineNo || "",
     gender: userDetails?.gender || " ",
-    dateOfBirth: userDetails?.dateOfBirth || "",
+    dateOfBirth: userDetails?.dateOfBirth
+    ? new Date(userDetails.dateOfBirth).toISOString().split('T')[0]
+    : "",
     age: userDetails?.age || "",
   };
 
@@ -84,7 +88,7 @@ const InfoForm = ({ setTakeInput, takeInput }) => {
           phoneNumber: values?.phoneNumber || "",
           landlineNo: values?.landlineNo || "",
           gender: values?.gender.trim().toUpperCase() || "MALE" || "FEMALE",
-          dateOfBirth: new Date(values?.dateOfBirth).toISOString(), // Format the date
+          dateOfBirth: new Date(values?.dateOfBirth).toISOString().split('T')[0],           // Format the date
           age: values?.age || "",
         },
       };
@@ -110,6 +114,33 @@ const InfoForm = ({ setTakeInput, takeInput }) => {
   
   useEffect(() => {
     // Fetch user data when the component mounts
+
+    console.log("Component is mounting or dependencies changed.");
+  console.log("id:", id);
+  console.log("session:", session);
+    const fetchUserData = async () => {
+      try {
+        const apiUrl = `/api/signup/${id}`;
+        const headers = {
+          Authorization: `Bearer ${session?.jwt}`,
+        };
+    
+        const response = await axios.get(apiUrl,{ headers });
+        console.log("response:", response)
+        if (response.data && response.data.ok) {
+          const userData = response.data;
+          dispatch(setDetails(userData)); // Update Redux store with fetched data
+        } else {
+          // Handle API error here
+          console.error("API error:", response.statusText);
+          // You might want to throw an error here or handle it differently based on your needs
+        }
+      } catch (error) {
+        console.error("Fetch user data error:", error);
+        // Handle other errors appropriately
+        // You might want to throw an error here or handle it differently based on your needs
+      }
+    };
     fetchUserData();
   }, [id, session]);
 

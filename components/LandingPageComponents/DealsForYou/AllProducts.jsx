@@ -41,7 +41,7 @@ const AllProducts = ({ totalslides, data }) => {
       }}
       loop={true}
       modules={[Keyboard, Navigation]}
-      className={`mySwiper relative ${play.className}`}
+      className={`swiper mySwiper relative ${play.className}`}
     >
       {product?.map((item, i) => (
         <SwiperSlide key={i} className={`${isMobile ? `p-0 py-4` : `p-4`}`}>

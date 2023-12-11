@@ -27,36 +27,6 @@ const AddressForm = ({ nextStep, prevStep }) => {
     email: "",
   };
 
-  // Handle form submission
-  // const onSubmit = async (values) => {
-  //   // Handle form submission logic here
-  //   console.log(values);
-  //   try {
-  //     const apiUrl = `${process.env.NEXT_PUBLIC_NEXT_API_PUBLIC_URL}/api/profiles/${profileId}`;
-  //     const payload = {
-  //       data: {
-  //         userAddress: {
-  //           values,
-  //         },
-  //       },
-  //     };
-
-  //     const headers = {
-  //       Authorization: `Bearer ${session?.jwt}`,
-  //     };
-
-  //     const response = await axios.put(apiUrl, payload, { headers });
-  //     console.log(response?.data?.data?.attributes, "response");
-
-  //     // Handle the response as needed
-  //     dispatch(setDetails(response.data?.data?.attributes));
-  //   } catch (error) {
-  //     console.error("API error:", error);
-  //   }
-
-  //   setAdd(false);
-  // };
-
   const onSubmit = async (values) => {
     try {
       const response = await fetch('/api/submit-address', {
