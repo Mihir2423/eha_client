@@ -9,8 +9,8 @@ import Loading from "@/utils/loading";
 const BestSellers = () => {
 
   const router = useRouter();
-  const {id} = router.query;
-  console.log("id",id)
+  const {category} = router.query;
+  console.log("id",category)
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const filterOption = useSelector((state) => state?.filter);
@@ -27,8 +27,8 @@ if (!filterOption) {
         <description>Get all electronics products</description>
       </Head>
       <BestSellerPage
-        id={id}
-        sortField={filterOption.field}
+        category={category}
+        sortField={filterOption.name}
         dir={filterOption.sort}
         isMobile={isMobile}
       />

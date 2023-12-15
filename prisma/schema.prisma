@@ -55,7 +55,7 @@ model User {
   phoneNumber        String?
   landlineNo         String?
   profileImage       String?
-  address            Address[] @relation("AddressToUser")
+  address            Address[]     @relation("AddressToUser")
   userAddress        UserAddress[] @relation("UserAddressToUser")
   accounts           Account[]
   orders             Order[]       @relation("OrderToUser")
@@ -79,7 +79,7 @@ model Address {
   telephone String
   email     String
   userId    Int
-  user      User?      @relation("AddressToUser",fields: [userId], references: [id], onDelete: Cascade)
+  user      User?     @relation("AddressToUser", fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model UserAddress {
@@ -97,74 +97,73 @@ model UserAddress {
   telephone String
   email     String
   userId    Int
-  user      User?      @relation("UserAddressToUser",fields: [userId], references: [id], onDelete: Cascade)
+  user      User?     @relation("UserAddressToUser", fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// model Category {
+//   id              Int               @id @default(autoincrement())
+//   createdAt       DateTime          @default(now())
+//   updatedAt       DateTime?         @updatedAt
+//   name            String
+//   CategoryType    String?
+//   slug            String            @unique
+//   productCategory String
+//   categoryId      Int
+//   products        ProductCategory[] @relation("CategoryToProduct")
+//   orders          Order[]
+// }
+
 model Product {
-  id            Int        @id @default(autoincrement())
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime?  @updatedAt
+  id            Int               @id @default(autoincrement())
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime?         @updatedAt
   name          String
   price         Int
   image         String
   description   String
-  slug          String     @unique
+  slug          String            @unique
   thumbnail     String
   originalPrice Int
   Brand         String
   rating        Int
-  categories    Category[]
+  category    String?
+  // categories    ProductCategory[] @relation("ProductToCategory")
+  productId     Int?
   orders        Order[]
-  user          User?      @relation(name: "ProductToUser", fields: [userId], references: [id], onDelete: Cascade)
-  userId        Int?       @map("userId")
+  user          User?             @relation(name: "ProductToUser", fields: [userId], references: [id], onDelete: Cascade)
+  userId        Int?              @map("userId")
 }
+
+// model ProductCategory {
+//   id         Int       @id @default(autoincrement())
+//   createdAt  DateTime  @default(now())
+//   updatedAt  DateTime? @updatedAt
+//   productId  Int
+//   categoryId Int
+//   category   Category  @relation("CategoryToProduct", fields: [categoryId], references: [id])
+//   product    Product   @relation("ProductToCategory", fields: [productId], references: [id])
+
+//   @@unique([productId, categoryId], name: "unique_product_category")
+// }
 
 model Order {
-  id              Int       @id @default(autoincrement())
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime? @updatedAt
-  city            String
-  state           String
-  shippingAddress String
-  amount          Int
-  items           Json
-  pin             Int
-  userId          Int
-  category        Category  @relation(fields: [categoryId], references: [id])
-  categoryId      Int
-  product         Product   @relation(fields: [productId], references: [id])
-  productId       Int
-  user            User      @relation(name: "OrderToUser", fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Category {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  name      String
-  slug      String    @unique
-
-  products Product[]
-  orders   Order[]
+  id         Int       @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
+  city       String
+  state      String
+  amount     Int
+  items      Json
+  pin        Int
+  // categoryId Int
+  // category   Category  @relation(fields: [categoryId], references: [id])
+  productId  Int
+  product    Product   @relation(fields: [productId], references: [id])
+  userId     Int
+  user       User      @relation(name: "OrderToUser", fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Gender {
   MALE
   FEMALE
-}
-
-enum ProductCategory {
-  PRINTER
-  DOCUMENT_SCANNER
-  MULTI_FUNCTION_DEVICE
-  CARTRIDGE
-  INTERACTIVE_FLAT_PANEL_DISPLAY
-  CAMERA
-  PROJECTOR
-  OPS
-  CONTENT
-  SERVER
-  LAPTOP
-  WORK_STATION
-  DESKTOP
 }

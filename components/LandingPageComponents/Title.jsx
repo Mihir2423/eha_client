@@ -14,7 +14,7 @@ const nova_thai = localFont({
   display: 'swap',
 })
 
-const Title = ({ title, viewAll, id }) => {
+const Title = ({ title, viewAll, id,  }) => {
   const router = useRouter();
   return (
     <Box className={`hidden md:flex justify-between items-center px-10 py-8`}>
@@ -28,7 +28,7 @@ const Title = ({ title, viewAll, id }) => {
         <Box
           className={` bg-black py-2 px-3 flex justify-center items-center cursor-pointer`}
           style={{ borderRadius: "5px" }}
-          onClick={() => router.push(`/category?id=${id}`)}
+          onClick={() => router.push(`/products?category=printer`)}
         >
           <h4
             className={`text-white normal-case text-base marker ${nova_thai.className}`}

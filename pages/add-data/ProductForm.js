@@ -15,6 +15,7 @@ const ProductFormSchema = Yup.object().shape({
     originalPrice: Yup.number().required('Required'),
     brand: Yup.string().required('Required'),
     rating: Yup.number().required('Required'),
+    categories: Yup.string(),
   // Add validation for other fields as needed
 });
 
@@ -29,6 +30,7 @@ const ProductForm = ({ onSubmit }) => {
     originalPrice: '',
     brand: '',
     rating: '',
+    categories: '',
   };
 
   return (
@@ -92,6 +94,11 @@ const ProductForm = ({ onSubmit }) => {
             <ErrorMessage name="rating" component="div"className={styles.errorMessage} />
         </div>
 
+        <div className={styles.formGroup}>
+            <label className={styles.formLabel} htmlFor="categories">categories:</label>
+            <Field type="text" id="categories" name="categories" className={styles.fieldInput} />
+            <ErrorMessage name="categories" component="div"className={styles.errorMessage} />
+        </div>
 
 
         {/* Add similar blocks for other fields with their respective labels, ids, and names */}

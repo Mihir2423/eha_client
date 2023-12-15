@@ -4,12 +4,12 @@ import ProductsSide from "./ProductsSide";
 import FilterSort from "./FilterSort";
 import FilterSortModal from "./FilterSortModal";
 
-const BestSellerPage = ({ id, sortField, dir, isMobile }) => {
+const BestSellerPage = ({ category, sortField, dir, isMobile }) => {
   let content;
   content = isMobile ? (
     <div>
       <FilterSortModal />
-      <ProductsSide id={id} sortField={sortField} dir={dir} />
+      <ProductsSide sortField={sortField} dir={dir} />
     </div>
   ) : (
     <Grid container spacing={2} padding={3}>
@@ -18,7 +18,7 @@ const BestSellerPage = ({ id, sortField, dir, isMobile }) => {
       </Grid>
       <Grid item xs={9} md={9} xl={9}>
         <ProductsSide
-          id={id}
+          
           sortField={sortField}
           dir={dir}
           isMobile={isMobile}

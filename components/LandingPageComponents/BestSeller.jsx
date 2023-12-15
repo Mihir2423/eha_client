@@ -27,7 +27,7 @@ const BestSeller = ({ posts }) => {
       {isMobile && (
         <Box
           className={`bg-[#EA1D25] absolute w-[100px] flex items-center justify-center py-2 top-[-15px] left-1/2 -translate-x-1/2 `}
-          onClick={() => router.push(`/category`)}
+          onClick={() => router.push(`/products?category=laptop`)} //{`/products?category=${category}`}
         >
           <span className="text-white font-[NovaThai]">VIEW ALL</span>
         </Box>
