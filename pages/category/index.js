@@ -7,18 +7,18 @@ import Head from "next/head";
 import Loading from "@/utils/loading";
 
 const BestSellers = () => {
+
   const router = useRouter();
   const {id} = router.query;
   console.log("id",id)
   const isMobile = useMediaQuery("(max-width: 768px)");
-  
+
   const filterOption = useSelector((state) => state?.filter);
-  console.log("All catogary",filterOption.field,filterOption.sort);
+  console.log("All categary",filterOption);
 if (!filterOption) {
   // Handle loading state, e.g., show a loading spinner
   return <Loading/>;
 }
-
 
   return (
     <Box>

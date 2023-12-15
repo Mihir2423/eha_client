@@ -55,6 +55,7 @@ export default async function handler(req, res) {
           // If name parameter is provided, filter by name
           products = await prisma.Product.findMany({
             where: {
+              id,
               name: {
                 contains: name,
                 mode: "insensitive", // Case-insensitive search
