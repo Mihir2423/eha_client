@@ -45,15 +45,39 @@ export default async function handler(req, res) {
       }
     }
   } else if (req.method === "GET") {
-    // Handle GET request
-    try {
-      const products = await prisma.Product.findMany();
-      res.status(200).json({ data: products });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
+    if (req.method === "GET") {
+      try {
+        const { name, sortBy } = req.query;
+  
+        let products;
+  
+        if (name) {
+          // If name parameter is provided, filter by name
+          products = await prisma.Product.findMany({
+            where: {
+              name: {
+                contains: name,
+                mode: "insensitive", // Case-insensitive search
+              },
+            },
+          });
+        } else {
+          // If no name parameter, fetch all products
+          products = await prisma.Product.findMany();
+        }
+  
+        // Sort by a specified key (e.g., price, rating)
+        if (sortBy) {
+          products.sort((a, b) => a[sortBy] - b[sortBy]);
+        }
+  
+        res.status(200).json({ data: products });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+      }
+    } else {
+      res.status(405).json({ error: "Method Not Allowed" });
     }
-  } else {
-    res.status(405).json({ error: "Method Not Allowed" });
   }
 }

@@ -12,7 +12,7 @@ const productSlice = createSlice({
       state.prodDetails = action.payload;
     },
     setProduct:(state,action)=>{
-      state.prodDetails={...action.payload};
+      state.prodDetails= action.payload;
     }
   },
 });

@@ -84,7 +84,7 @@ const AboutProduct = ({ data }) => {
               DELIVERY
             </Typography>
             <TextField
-             maxlength={6}
+             maxLength={6}
               onChange={(e)=>pincodeCheck(e.target.value)}
               id="standard-basic"
               placeholder="Pincode"

@@ -14,7 +14,7 @@ import Image from "next/image";
 import SectionHeading from "../userDetailsComponent/ProfileComponents/SectionHeading";
 import { Container, useMediaQuery } from "@mui/material";
 import { useCart } from "react-use-cart";
-import { useSession } from "next-auth/react";
+
 
 export default function CartDetails({ nextStep, prevStep }) {
   const { isEmpty, items, cartTotal, removeItem, updateItemQuantity } =

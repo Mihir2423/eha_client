@@ -1,42 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Box } from "@mui/material";
-import axios from "axios"; // Import Axios
-
 import SingleProduct from "@/components/LandingPageComponents/SingleProduct";
 import Title from "@/components/LandingPageComponents/Title";
+import axios from "axios";
 
-const SearchDetails = ({ loading }) => {
+const SearchDetails = () => {
   const router = useRouter();
-  const { name, id } = router.query;
-  // console.log(name, id);
-  const error = false;
-  const [productsData, setProductsData] = React.useState(null);
-
-  React.useEffect(() => {
-    const productDatas = async () => {
+  const { name } = router.query;
+  const [productsData, setProductsData] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-        const { data } = await axios.get(`/api/products/${id}`);
-        setProductsData(data);
+        setLoading(true);
+        const response = await axios.get(`/api/products?name=${name}`);
+
+        setProductsData(response.data);
+        setLoading(false);
       } catch (error) {
-        console.error("Error fetching product data:", error);
+        setError(error);
+        setLoading(false);
       }
     };
-
-    productDatas();
-  }, [id]); // Add id to the dependency array to re-run the effect when id changes
-
+  
+    if (name) {
+      fetchData();
+    }
+  }, [name]);
+  
+  console.log("productsData:", productsData.data);
   let content;
   if (loading) content = <h1>Loading...</h1>;
   else if (error) content = <h1>Something Went Wrong...</h1>;
   else {
-    content = productsData?.map((data, i) => (
+    content = Object.values(productsData?.data).map((data, i) => (
       <Box key={i} style={{ width: "20%" }}>
         <SingleProduct item={data} />
       </Box>
     ));
   }
-  // console.log(productsData);
+
   return (
     <>
       <Box className={`px-20 pt-10`}>

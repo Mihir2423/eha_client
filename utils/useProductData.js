@@ -1,10 +1,6 @@
 // useProductsData.js
-// import { useQuery } from "@apollo/client";
+
 import React,{useState} from "react";
-// import {
-//   GET_NEW_ARRIVALS,
-//   GET_PRODUCT_BY_CATEGORY,
-// } from "@/gqloperation/queries";
 import { Box } from "@mui/material";
 import SingleProduct from "@/components/LandingPageComponents/SingleProduct";
 import styles from "./prod.module.css";

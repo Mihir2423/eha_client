@@ -9,9 +9,11 @@ import Loading from "@/utils/loading";
 const BestSellers = () => {
   const router = useRouter();
   const {id} = router.query;
+  console.log("id",id)
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const filterOption = useSelector((state) => state?.product?.prodDetails?.data);
-  console.log("All catogary",filterOption);
+  
+  const filterOption = useSelector((state) => state?.filter);
+  console.log("All catogary",filterOption.field,filterOption.sort);
 if (!filterOption) {
   // Handle loading state, e.g., show a loading spinner
   return <Loading/>;
@@ -26,7 +28,8 @@ if (!filterOption) {
       </Head>
       <BestSellerPage
         id={id}
-        data={filterOption}
+        sortField={filterOption.field}
+        dir={filterOption.sort}
         isMobile={isMobile}
       />
     </Box>

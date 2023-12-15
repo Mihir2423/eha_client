@@ -29,7 +29,7 @@ const CartMenu = ({ anchorEl, isCartOpen, handleCloseCart }) => {
   };
 
   let content;
-  console.log(items);
+  // console.log(items);
   if (isEmpty) {
     content = <Typography className="p-2">Cart is empty!!</Typography>;
   } else if (items && items.length > 0) {
