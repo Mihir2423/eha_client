@@ -31,7 +31,7 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { product, profile } from "./constant";
 import localFont from "next/font/local";
-import { set } from "ol/transform";
+import CloseIcon from "@mui/icons-material/Close"
 const nova = localFont({
     src: "../../assets/fonts/NovaSlim-Regular.ttf",
     display: "swap",
@@ -52,7 +52,8 @@ const Header = () => {
   const [ele, setEle] = useState(null);
   const status = useSelector((state) => state?.govCorporate?.status);
   const { data: session } = useSession();
-
+  const [isSearchActive, setIsSearchActive] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 768px)");
   useEffect(() => {
     setTotalItems(items.length);
   }, [items]);
@@ -92,6 +93,7 @@ const Header = () => {
     if (searchInput.trim() !== "") {
       router.push(`/search?name=${searchInput}`);
       setSearchInput("");
+      setIsSearchActive(false); // Reset search state when navigating
     }
   };
 
@@ -111,16 +113,17 @@ const Header = () => {
     const { value } = e.target;
     setSearchInput(value);
     debouncedSearch(value);
+    setIsSearchActive(value.trim() !== ""); 
     
   };
 
   const inputStyle = {
     backgroundColor: "rgba(229, 229, 229, 1)",
-    width: useMediaQuery("(max-width: 768px)") ? "95vw" : "370px",
+    width: isMobile ? "95vw" : "370px",
     paddingLeft: "5px",
     borderRadius: "10px",
     "&::placeholder": {
-      fontSize: useMediaQuery("(max-width: 768px)") ? "8px" : "12px",
+      fontSize: isMobile ? "8px" : "12px",
       fontWeight: 400,
       lineHeight: "16px",
       color: "rgba(0, 0, 0, 1)",
@@ -137,7 +140,7 @@ const Header = () => {
     setIsProfileOpen(false);
   };
 
-  const isMobile = useMediaQuery("(max-width: 768px)");
+
 
   return (
     <AppBar position="fixed" className={`bg-black shadow-none`}>
@@ -149,14 +152,14 @@ const Header = () => {
               <Typography
                 variant="h1"
                 className={`text-white ${nova.className} text-[14px] leading-[19px] md:text-[25px] md:leading-[32px] `}
-                style={useMediaQuery("(max-width: 768px)") ? smallTypo : mainTitle}
+                style={isMobile ? smallTypo : mainTitle}
               >
                 EHA SHIVAM TECHNOLOGIES
               </Typography>
             </Link>
           </Box>
           <Box className="w-1/2 flex gap-3 md:gap-0 justify-end md:justify-between items-center" ref={searchRef}>
-            {!useMediaQuery("(max-width: 768px)") && (
+            {!isMobile && (
               <Box className={`relative`}>
                 <OutlinedInput
                   classes={{
@@ -177,11 +180,20 @@ const Header = () => {
                   sx={inputStyle}
                 />
                 {searchResults.length > 0 && (
-                  <SearchContent
-                    productsData={searchResults ? searchResults : []}
-                    setSearchInput={setSearchInput? setSearchInput : null}
-                  />
-                )}
+              <SearchContent
+                productsData={searchResults}
+                setSearchInput={setSearchInput}
+              />
+            )}
+            {isSearchActive && (
+              <CloseIcon
+                style={{ position: "absolute", top: 10, right: 10, cursor: "pointer" }}
+                onClick={() => {
+                  setSearchInput("");
+                  setIsSearchActive(false);
+                }}
+              />
+            )}
               </Box>
             )}
             <div className="flex items-center justify-between gap-4 md:gap-10">
@@ -197,16 +209,16 @@ const Header = () => {
                   }
                   alt="cart"
                   width={
-                    (ele === "Government" || ele === "Commercial") && useMediaQuery("(max-width: 768px)")
+                    (ele === "Government" || ele === "Commercial") && isMobile
                       ? 20
-                      : (ele === "Government" || ele === "Commercial") || useMediaQuery("(max-width: 768px)")
+                      : (ele === "Government" || ele === "Commercial") || isMobile
                       ? 25
                       : 35
                   }
                   height={
-                    (ele === "Government" || ele === "Commercial") && useMediaQuery("(max-width: 768px)")
+                    (ele === "Government" || ele === "Commercial") && isMobile
                       ? 20
-                      : (ele === "Government" || ele === "Commercial") || useMediaQuery("(max-width: 768px)")
+                      : (ele === "Government" || ele === "Commercial") || isMobile
                       ? 25
                       : 40
                   }
@@ -269,7 +281,7 @@ const Header = () => {
                 />
               }
               inputProps={{
-                style: { padding: useMediaQuery("(max-width: 768px)") ? "8px 12px" : "10px 15px" },
+                style: { padding: isMobile? "8px 12px" : "10px 15px" },
               }}
               placeholder="Search for a product, category, or brand"
               value={searchInput}
