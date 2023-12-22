@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   AppBar,
   Box,
+  Button,
   OutlinedInput,
   Toolbar,
   Typography,
@@ -28,10 +29,11 @@ import { mainTitle, smallTypo } from "@/styles/typoStyles";
 import styles from "../page.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { product, profile } from "./constant";
 import localFont from "next/font/local";
 import CloseIcon from "@mui/icons-material/Close"
+import { changeStatus } from "@/redux/features/govCorporateSlice";
 const nova = localFont({
     src: "../../assets/fonts/NovaSlim-Regular.ttf",
     display: "swap",
@@ -39,6 +41,12 @@ const nova = localFont({
 
 
 const Header = () => {
+  const dispatch = useDispatch()
+  
+  const handleClick = (ele) => {
+    localStorage.setItem("ele", "");
+    dispatch(changeStatus(""))
+  };
   const router = useRouter();
   const { items } = useCart();
   const searchRef = useRef(null);
@@ -253,7 +261,14 @@ const Header = () => {
                 </button>
               )}
             </div>
-
+            <Button
+              type="button"
+              onClick={handleClick}
+              variant="outlined"
+              className={`${ele === "" ? `hidden` : ``}`}
+            >
+              GO BACK
+            </Button>
             <CartMenu
               anchorEl={anchorEl}
               isCartOpen={isCartOpen}
