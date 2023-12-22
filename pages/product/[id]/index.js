@@ -1,7 +1,9 @@
 import Loading from "@/utils/loading";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import React from "react";
+import React, { useEffect, useState } from "react";
 const ProductDetail = dynamic(
   () => import("@/components/ProductComponents/ProductDetail"),
   {
@@ -9,38 +11,35 @@ const ProductDetail = dynamic(
   }
 );
 
-const ProductDetails = ({ product }) => {
+const ProductDetails = () => {
+  const { data: session, status } = useSession();
+  const [product, setProduct] = useState(null); // Make sure to initialize product with a default value
+
+  useEffect(() => {
+    const id = window.location.pathname.split("/")[2];
+    const productData = async () => {
+      try {
+        const { data } = await axios.get(`/api/products/${id}`);
+        setProduct(data);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
+
+    productData();
+  }, []); 
+
+  // console.log("Index page product",product);
+
   return (
     <>
-      <Head>
-        <title>EHA | {product?.data?.attributes?.name}</title>
-        <meta name="description" content="Get all electronics products" />
-      </Head>
+      {/* <Head> */}
+      {/* <title>EHA | {product?.data?.attributes?.name}</title> */}
+      {/* <meta name="description" content="Get all electronics products" /> */}
+      {/* </Head> */}
       <ProductDetail product={product} />
     </>
   );
 };
 
 export default ProductDetails;
-
-export async function getServerSideProps(context) {
-  try {
-    const { id } = context.query;
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_NEXT_API_PUBLIC_URL}/api/products/${id}?populate=*`
-    );
-    const product = await res.json();
-    return {
-      props: {
-        product,
-      },
-    };
-  } catch (error) {
-    console.error("Error fetching product:", error);
-    return {
-      props: {
-        product: null,
-      },
-    };
-  }
-}

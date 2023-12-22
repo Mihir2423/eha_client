@@ -5,7 +5,7 @@ import Link from "next/link";
 import { nova, nova_thai } from "@/utilities/font";
 import { useRouter } from "next/router";
 
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 const ProfileMenu = ({
   profileEl,
@@ -14,6 +14,7 @@ const ProfileMenu = ({
   profile,
 }) => {
   const router = useRouter();
+  const {data:session} = useSession();
   return (
     <Menu
       id="profile-menu"
@@ -31,7 +32,8 @@ const ProfileMenu = ({
       open={isProfileOpen}
       onClose={handleCloseProfile}
     >
-      {profile.slice(0, -1).map((item) => (
+      {/* {session?.user.username} */}
+      {profile?.slice(0, -1).map((item) => (
         <MenuItem
           key={item.id}
           onClick={handleCloseProfile}
@@ -59,7 +61,7 @@ const ProfileMenu = ({
           <Link
             className={`text-sm font-semibold ${nova_thai.className}`}
             href={"/auth/login"}
-            onClick={signOut}
+            onClick={()=>signOut()}
           >
             Logout
           </Link>

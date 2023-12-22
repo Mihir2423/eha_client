@@ -4,9 +4,13 @@ import { nova_thai } from "@/utilities/font";
 import sideDots from "../../../assets/svg/sideDots.svg";
 import Image from "next/image";
 import { useSelector } from "react-redux";
+import { useSession } from "next-auth/react";
 
 const SingleAddress = () => {
+  const {data: session, status} = useSession();
+  console.log(session?.user)
   const profile = useSelector((state) => state.user.userDetails.details);
+  console.log(profile);
   return (
     <Box className={`flex justify-between md:px-8 md:pr-16 items-center mt-5`}>
       <Box className={`flex gap-5 flex-col`}>

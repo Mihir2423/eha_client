@@ -1,36 +1,49 @@
-// useProductsData.js
-import { useQuery } from "@apollo/client";
-import {
-  GET_NEW_ARRIVALS,
-  GET_PRODUCT_BY_CATEGORY,
-} from "@/gqloperation/queries";
+import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import SingleProduct from "@/components/LandingPageComponents/SingleProduct";
 import styles from "./prod.module.css";
+import axios from "axios";
+import { useRouter } from "next/router";
 
-const useProductsData = (id, sortField, dir) => {
+const useProductsData = ( sortField, dir) => {
   // variables
   let content;
   let title;
-  const query = id === 1 ? GET_PRODUCT_BY_CATEGORY : GET_NEW_ARRIVALS;
-  const variables = {
-    categoryId: id === 1 ? 1 : undefined,
-    filters: id === 2 ? { updatedAt: { gte: new Date() } } : undefined,
-    sortField,
-  };
+  const router = useRouter();
+  const{category} = router.query;
+  console.log("id category",category)
+  const [productsData, setProductsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // useQuery
-  const { data, loading, error } = useQuery(query, variables);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`/api/products?category=${category}&sortBy=${sortField}&dir=${dir}`);
+        
+        // Check if 'data' property is present in the response
+        const responseData = response?.data?.data || [];
+
+        setProductsData(responseData);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [category, sortField]);
 
   if (loading) content = <h1>Loading...</h1>;
   else if (error) content = <h1>Something went wrong</h1>;
   else {
-    title = id === 1 ? "BEST SELLING LAPTOPS" : "NEW ARRIVALS";
-    let productsData = data.products.data;
+    let modifiedProductsData = Array.isArray(productsData) ? [...productsData] : [];
     if (dir === "desc") {
-      productsData = [...productsData].reverse();
+      modifiedProductsData = modifiedProductsData.reverse();
     }
-    content = productsData?.map((data, i) => (
+
+    content = modifiedProductsData?.map((data, i) => (
       <Box key={data?.id} className={styles.bestSeller}>
         <SingleProduct item={data} />
       </Box>
@@ -41,4 +54,3 @@ const useProductsData = (id, sortField, dir) => {
 };
 
 export default useProductsData;
-

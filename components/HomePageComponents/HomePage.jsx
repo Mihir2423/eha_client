@@ -30,7 +30,7 @@ const NewArrival = dynamic(
   }
 );
 
-const HomePage = ({ posts, laptops }) => {
+const HomePage = ({ posts }) => {
   const dispatch = useDispatch();
   const msg = useSelector((state) => state?.addToCart?.successMsg);
   const [success, setSuccess] = React.useState(msg);
@@ -38,7 +38,8 @@ const HomePage = ({ posts, laptops }) => {
     setSuccess(msg);
   }, [msg]);
   return (
-    <Box className="p-0 pb-4">
+    <div>
+       <Box className="p-0 pb-4">
       <BannerSection />
       <DealsForYou posts={posts} />
       <NewArrival posts={posts} />
@@ -72,6 +73,8 @@ const HomePage = ({ posts, laptops }) => {
         </Snackbar>
       )}
     </Box>
+    </div>
+   
   );
 };
 

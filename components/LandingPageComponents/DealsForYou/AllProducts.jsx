@@ -22,10 +22,12 @@ const play = Play({
   preload: false,
 });
 
-
-
 const AllProducts = ({ totalslides, data }) => {
+  // console.log("ALL product data", data)
   const isMobile = useMediaQuery("(max-width: 768px)");
+
+  const product = data;
+
   return (
     <Swiper
       slidesPerView={totalslides || 4}
@@ -39,16 +41,16 @@ const AllProducts = ({ totalslides, data }) => {
       }}
       loop={true}
       modules={[Keyboard, Navigation]}
-      className={`mySwiper relative ${play.className}`}
+      className={`swiper mySwiper relative ${play.className}`}
     >
-      {data?.map((item, i) => (
-        <SwiperSlide key={i} className={`${ isMobile ? `p-0 py-4` :`p-4`}`}>
+      {product?.map((item, i) => (
+        <SwiperSlide key={i} className={`${isMobile ? `p-0 py-4` : `p-4`}`}>
           <SingleProduct item={item} />
         </SwiperSlide>
       ))}
       {!isMobile && (
         <div
-          className="absolute top-[30%] left-[2%] z-[20] button-prev-slide w-[80px] h-[80px] grid place-items-center rounded-full p-2"
+          className="absolute top-[30%] left-[2%] z-[20] button-prev-slide w-[60px] h-[60px] grid place-items-center rounded-full p-2"
           style={{ backgroundColor: "black" }}
         >
           <Image src={eastIcon} alt="eastIcon" />
@@ -56,7 +58,7 @@ const AllProducts = ({ totalslides, data }) => {
       )}
       {!isMobile && (
         <div
-          className="absolute top-[30%] z-[20] right-[2%] button-next-slide w-[80px] h-[80px] grid place-items-center rounded-full p-2"
+          className="absolute top-[30%] z-[20] right-[2%] button-next-slide w-[60px] h-[60px] grid place-items-center rounded-full p-2"
           style={{ backgroundColor: "black" }}
         >
           <Image src={westIcon} alt="westIcon" />

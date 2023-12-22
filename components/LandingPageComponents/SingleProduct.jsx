@@ -23,12 +23,14 @@ const nova_thai = localFont({
 });
 
 const SingleProduct = ({ item }) => {
+  // console.log(item);
   const { addItem } = useCart();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isSmallMobile = useMediaQuery("(max-width: 380px)");
   const dispatch = useDispatch();
   const router = useRouter();
   const status = useSelector((state) => state?.govCorporate?.status);
+
   const [ele, setEle] = React.useState(null);
   React.useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -38,11 +40,12 @@ const SingleProduct = ({ item }) => {
   }, [ele, status]);
 
   const addToCart = () => {
+    console.log("clicked")
     addItem({
       id: item?.id,
-      name: item?.attributes?.name,
-      price: item?.attributes?.price,
-      img: item?.attributes?.thumbnail?.data?.attributes?.url,
+      name: item?.name,
+      price: item?.price,
+      img: item?.image,
     });
     dispatch(addedMsg());
   };
@@ -58,9 +61,7 @@ const SingleProduct = ({ item }) => {
           {/* Details Start*/}
           <Image
             alt="product"
-            src={
-              item?.attributes?.thumbnail?.data?.attributes?.url || laptopImg
-            }
+            src={item?.image}
             width={200}
             height={200}
             style={{ width: "100%" }}
@@ -68,12 +69,12 @@ const SingleProduct = ({ item }) => {
           />
           <Box className={`${styles.descContainer}`}>
             <Typography variant="p" className={styles.productDesc}>
-              {item?.attributes?.name}
+              {item.name}
             </Typography>
             <Typography
               className={`${styles.prodPrice} ${nova_thai.className}`}
             >
-              {`₹${item?.attributes?.price}`}
+              {`₹${item?.price}`}
             </Typography>
           </Box>
 

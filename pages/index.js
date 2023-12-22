@@ -6,7 +6,14 @@ import Head from "next/head";
 import Footer from "@/components/footer/footer";
 
 
-const Home = ({ posts, filteredItems }) => {
+const novaFlat = Nova_Flat({
+  subsets: ["latin"],
+  style: "normal",
+  weight: "400",
+  display: "swap",
+});
+
+const Home = () => {
   const dispatch = useDispatch();
   console.log(filteredItems);
 
@@ -17,6 +24,10 @@ const Home = ({ posts, filteredItems }) => {
       dispatch(getToken(token));
     }
   }, [dispatch]);
+
+  const posts = productsData?.data;
+  // console.log(posts);
+
   return (
     <>
       <Head>

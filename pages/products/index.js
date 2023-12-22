@@ -4,13 +4,22 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import Head from "next/head";
+import Loading from "@/utils/loading";
 
 const BestSellers = () => {
+
   const router = useRouter();
-  const { id } = router.query;
+  const {category} = router.query;
+  console.log("id",category)
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  const filterOption = useSelector((state) => state.filter);
+  const filterOption = useSelector((state) => state?.filter);
+  console.log("All categary",filterOption);
+if (!filterOption) {
+  // Handle loading state, e.g., show a loading spinner
+  return <Loading/>;
+}
+
   return (
     <Box>
       <Head>
@@ -18,8 +27,8 @@ const BestSellers = () => {
         <description>Get all electronics products</description>
       </Head>
       <BestSellerPage
-        id={id}
-        sortField={filterOption.field}
+        category={category}
+        sortField={filterOption.name}
         dir={filterOption.sort}
         isMobile={isMobile}
       />

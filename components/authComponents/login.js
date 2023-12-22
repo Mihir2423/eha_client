@@ -1,87 +1,88 @@
+
+
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import LoginImg from "../../assets/img-login.png";
-import { Alert, Box, Container, Snackbar, useMediaQuery } from "@mui/material";
-import { nova, nova_thai } from "../../utilities/font";
+import { Alert, Snackbar, useMediaQuery } from "@mui/material";
+import { nova_thai } from "../../utilities/font";
 import Image from "next/image";
-import { useMutation, gql } from "@apollo/client";
-import { LOGIN, FORGOT_PASSWORD } from "../../gqloperation/mutation";
-import Background from "../background";
-import NextTopLoader from 'nextjs-toploader';
 
-import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
-import { getToken } from "@/redux/features/userSlice";
+import { useRouter } from "next/router";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
-import Loading from "@/utils/loading";
-import { preventDefault } from "ol/events/Event";
+import { signIn, useSession } from "next-auth/react";
+import NextTopLoader from "nextjs-toploader";
+
+
+
 
 const Login = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
-  const [isForgotPassword, setIsForgotPassword] = React.useState(false);
+  const {data:session, status} = useSession();
+  // console.log(session, status)
+  const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
-  const [loginUser, { loading, error, data }] = useMutation(LOGIN);
-  const forgotPassword = useMutation(FORGOT_PASSWORD);
-  const isMobile=useMediaQuery("(max-width: 768px)");
-  const [Error,setError]=React.useState(null);
+  const [Error, setError] = React.useState(null);
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
   const initialValues = {
-    identifier: "",
+    email: "",
     password: "",
   };
-  const validationSchema = Yup.object().shape({
-    identifier: Yup.string().required("identifier is required"),
-    password: Yup.string().required("Password is required"),
-  });
+
+
 
   const handleSubmit = async (values) => {
     try {
-      const result = await signIn("credentials", {
+      setLoading(true);
+      const callback = await signIn("credentials", {
         redirect: false,
-        username: values.identifier,
-        password: values.password,
+        ...values,
       });
-      if (result.ok) {
+
+      if (callback.ok) {
         setSuccess(true);
         router.replace("/");
       } else {
         setError("Login Failed 🫠!!");
-
       }
     } catch (error) {
       setError(error?.message);
+    } finally {
+      setLoading(false);
     }
-  };  
-  
+  };
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().required("Email is required").email("Invalid email"),
+    password: Yup.string().required("Password is required"),
+  });
+
   return (
-    <Formik 
+    <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      {({ handleSubmit }) => ( 
+      {() => (
         <Form>
-          {loading && <NextTopLoader/>}
-        <div
-        className={`flex items-center mt-5 ${nova_thai.className} mx-0 md:w-[50vw] `}
-        
-      >
+          {loading && <NextTopLoader />}
+          <div
+            className={`flex items-center mt-5 ${nova_thai.className} mx-0 md:w-[50vw] `}
+          >
             <div className="flex-1 h-1/2 max-w-3xl mx-auto bg-white rounded-lg shadow-2xl ">
               <div className="flex flex-col md:flex-row">
-                
-                {isMobile?null:
+                {isMobile ? null : (
                   <div className="h-32 md:h-auto md:w-[40%]">
-                  <Image
-                  className="object-cover w-full h-full rounded-t-lg md:rounded-l-lg md:rounded-t-none"
-                  src={LoginImg}
-                  alt="login"
-                  width={500}
-                  height={500}
-                />
-                </div>
-                }
+                    <Image
+                      className="object-cover w-full h-full rounded-t-lg md:rounded-l-lg md:rounded-t-none"
+                      src={LoginImg}
+                      alt="login"
+                      width={500}
+                      height={500}
+                    />
+                  </div>
+                )}
                 <div className="flex items-center justify-center p-6 sm:p-12 md:w-[60%]">
                   <div className="w-full">
                     <div className="flex justify-between">
@@ -94,7 +95,7 @@ const Login = () => {
                         className={`mb-4 text-sm text-red-500 text-right ${nova_thai.className}`}
                         onClick={() => router.push("/auth/signup")}
                       >
-                        SIGNIN
+                        SIGN UP
                       </button>
                     </div>
 
@@ -105,13 +106,13 @@ const Login = () => {
                     </span>
                     <div>
                       <Field
-                        type="identifier"
-                        name="identifier"
+                        type="email"
+                        name="email"
                         className="w-full px-1 my-4 border-b-2 focus:border-b-4 focus:outline-none opacity-80 text-neutral-700 text-base font-normal"
-                        placeholder="Username or Email"
+                        placeholder=" Email"
                       />
                       <ErrorMessage
-                        name="identifier"
+                        name="email"
                         component="div"
                         className="text-red-500 text-sm"
                       />
@@ -141,7 +142,7 @@ const Login = () => {
                       type="submit"
                       className="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-blue"
                     >
-                      Log in 
+                      Log in
                     </button>
                   </div>
                 </div>
@@ -168,7 +169,7 @@ const Login = () => {
                   >
                     <Alert severity="success" className="bg-green-200 text-lg">
                       {" "}
-                      Welcome back <b>{data?.login?.user.username} 🥳</b>
+                      Welcome back  
                     </Alert>
                   </Snackbar>
                 )}
@@ -182,3 +183,4 @@ const Login = () => {
 };
 
 export default Login;
+

@@ -1,5 +1,7 @@
 import React from "react";
 import Banner1 from "../../assets/png/banner.png";
+import Banner2 from '../../assets/png/banner-01.jpg'
+import Banner3 from '../../assets/png/banner-02.jpg'
 import leftArrow from "../../assets/svg/leftArrow.svg";
 import rightArrow from "../../assets/svg/rightArrow.svg";
 
@@ -40,10 +42,10 @@ const BannerSection = () => {
         <Image src={Banner1} alt="img" className="w-screen" loading="eager" />
       </SwiperSlide>
       <SwiperSlide>
-        <Image src={Banner1} alt="img" className="w-screen" loading="eager" />
+        <Image src={Banner2} alt="img" className="w-screen" loading="eager" />
       </SwiperSlide>
       <SwiperSlide>
-        <Image src={Banner1} alt="img" className="w-screen" loading="eager" />
+        <Image src={Banner3} alt="img" className="w-screen" loading="eager" />
       </SwiperSlide>
       {!isMobile && (
         <>
