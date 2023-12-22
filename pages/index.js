@@ -3,8 +3,9 @@ import React, { useEffect } from "react";
 import { getToken } from "@/redux/features/userSlice";
 import { useDispatch } from "react-redux";
 import Head from "next/head";
-import Footer from "@/components/footer/footer";
-
+import { Nova_Flat } from "next/font/google";
+import { setProduct } from "@/redux/features/productSlice";
+import axios from "axios";
 
 const novaFlat = Nova_Flat({
   subsets: ["latin"],
@@ -15,7 +16,29 @@ const novaFlat = Nova_Flat({
 
 const Home = () => {
   const dispatch = useDispatch();
-  console.log(filteredItems);
+  const [productsData, setProductsData] = React.useState(null);
+
+  useEffect(() => {
+    const fetchProductData = async () => {
+      try {
+        const response = await axios.get("/api/products");
+        // console.log("RESPONSE", response);
+        if (response.data) {
+          setProductsData(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
+
+    fetchProductData();
+  }, []); 
+
+  useEffect(() => {
+    if (productsData) {
+      dispatch(setProduct(productsData));
+    }
+  }, [dispatch, productsData]);
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -34,36 +57,12 @@ const Home = () => {
         <title>EHA Shivam Technologies | Dashboard</title>
         <meta name="description" content="Get all electronics products" />
       </Head>
-      <HomePage posts={posts} laptops={filteredItems} />
-      <Footer />
+      <HomePage
+        posts={posts}
+        className={novaFlat.className}
+      />
     </>
   );
 };
 
 export default Home;
-
-export async function getServerSideProps() {
-  try {
-    const [postsRes, filteredItemsRes] = await Promise.all([
-      fetch(`${process.env.NEXT_PUBLIC_NEXT_API_PUBLIC_URL}/api/products?populate=*`),
-      fetch(`${process.env.NEXT_PUBLIC_NEXT_API_PUBLIC_URL}/api/products`),
-    ]);
-
-    const posts = await postsRes.json();
-    const { filteredItems } = await filteredItemsRes.json();
-    return {
-      props: {
-        posts,
-        filteredItems: [],
-      },
-    };
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    return {
-      props: {
-        posts: [],
-        filteredItems: [],
-      },
-    };
-  }
-}
