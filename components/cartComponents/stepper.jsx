@@ -6,7 +6,7 @@ import StepWizard from "react-step-wizard";
 import { nova } from '../../utilities/font';
 import OrderSuccess from './orderSuccess';
 
-const Confirmation = () => <h1>Confirmation</h1>;
+// const Confirmation = () => <h1>Confirmation</h1>;
 
 const steps = [
   {

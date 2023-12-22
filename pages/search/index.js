@@ -1,37 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useQuery } from "@apollo/client";
-import { GET_PRODUCT_BY_NAME } from "@/gqloperation/queries";
 import { Box } from "@mui/material";
 import SingleProduct from "@/components/LandingPageComponents/SingleProduct";
 import Title from "@/components/LandingPageComponents/Title";
+import axios from "axios";
 
 const SearchDetails = () => {
   const router = useRouter();
   const { name } = router.query;
-  console.log(name);
+  const [productsData, setProductsData] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`/api/products?name=${name}`);
 
-  const {
-    data: { products: { data: productsData } = {} } = {},
-    loading,
-    error,
-  } = useQuery(GET_PRODUCT_BY_NAME, {
-    variables: {
-      searchString: name,
-    },
-  });
-
+        setProductsData(response.data);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+  
+    if (name) {
+      fetchData();
+    }
+  }, [name]);
+  
+  console.log("productsData:", productsData.data);
   let content;
   if (loading) content = <h1>Loading...</h1>;
   else if (error) content = <h1>Something Went Wrong...</h1>;
   else {
-    content = productsData?.map((data, i) => (
+    content = Object.values(productsData?.data).map((data, i) => (
       <Box key={i} style={{ width: "20%" }}>
         <SingleProduct item={data} />
       </Box>
     ));
   }
-  console.log(productsData);
+
   return (
     <>
       <Box className={`px-20 pt-10`}>

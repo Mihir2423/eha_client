@@ -63,34 +63,18 @@ export const GET_ALL_CATEGORIES = gql`
   }
 `;
 
-export const GET_PRODUCT_BY_CATEGORY = gql`
-  query Categories($categoryId: ID, $sortField: [String]) {
-    category(id: $categoryId) {
-      data {
-        attributes {
-          products(sort: $sortField) {
-            data {
-              id
-              attributes {
-                name
-                price
-                original_price
-                description
-                thumbnail {
-                  data {
-                    attributes {
-                      url
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+import axios from 'axios';
+
+
+export const GET_PRODUCT_BY_CATEGORY = async (category) => {
+  try {
+    const response = await api.get(`/products?category=${category}`);
+    return response.data; 
+  } catch (error) {
+    console.error('Error fetching products by category:', error);
+    throw error;
   }
-`;
+};
 
 export const GET_NEW_ARRIVALS = gql`
   query Products($filters: ProductFiltersInput, $sortField: [String]) {

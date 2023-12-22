@@ -14,6 +14,7 @@ import { changeStatus } from "@/redux/features/govCorporateSlice";
 
 const ServicesCard = () => {
   const dispatch = useDispatch()
+  
   const handleClick = (ele) => {
     localStorage.setItem("ele", ele);
     dispatch(changeStatus(ele))

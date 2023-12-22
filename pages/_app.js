@@ -7,11 +7,12 @@ import { DrawerHeader } from "../components/NavbarComponent/DrawerHeader";
 import { Box, useMediaQuery } from "@mui/material";
 import { ReduxProvider } from "../redux/provider";
 import { CartProvider } from "react-use-cart";
-import { SessionProvider } from "next-auth/react";
 import Footer from "../components/footer/footer";
 import NextTopLoader from 'nextjs-toploader';
+import Provider from "@/context/AuthContext";
 
 export default function App({ Component, pageProps, session }) {
+
   const isMobile = useMediaQuery("(max-width: 768px)");
   <Head>
     <meta
@@ -20,10 +21,10 @@ export default function App({ Component, pageProps, session }) {
     />
   </Head>;
   return (
-    <SessionProvider session={session}>
+    <Provider>
       <CartProvider>
         <ReduxProvider>
-          <ApolloProvider client={apolloClient}>
+          {/* <ApolloProvider client={apolloClient}> */}
           <NextTopLoader />
             <Header />
             <Box
@@ -40,9 +41,9 @@ export default function App({ Component, pageProps, session }) {
               <Component {...pageProps} />
             </Box>
             <Footer />
-          </ApolloProvider>
+          {/* </ApolloProvider> */}
         </ReduxProvider>
       </CartProvider>
-    </SessionProvider>
+    </Provider>
   );
 }

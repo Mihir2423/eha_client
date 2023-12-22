@@ -1,6 +1,7 @@
+
+
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import React from "react";
-
 import whiteCart from "../../assets/svg/whiteCart.svg";
 import bag from "../../assets/svg/bag.svg";
 import listIcon from "../../assets/svg/listIcom.svg";
@@ -9,6 +10,7 @@ import Image from "next/image";
 import localFont from "next/font/local";
 import { useSelector } from "react-redux";
 import { useCart } from "react-use-cart";
+import { useRouter } from "next/router";
 
 const nova_thai = localFont({
   src: "../../assets/fonts/NotoSansThaiLooped-Regular.ttf",
@@ -16,30 +18,20 @@ const nova_thai = localFont({
 });
 
 const AddBtns = () => {
+  const router = useRouter();
+  const { id } = router.query;
   const item = useSelector((state) => state?.product?.prodDetails);
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const [ele, setEle] = React.useState(null);
-
-  const status = useSelector((state) => state?.govCorporate?.status);
-
   const { addItem } = useCart();
-
-  React.useEffect(() => {
-    if (typeof window !== "undefined" && window.localStorage) {
-      const eleItem = localStorage.getItem("ele");
-      setEle(eleItem);
-      console.log(ele);
-    }
-  }, [ele, status]);
-
-  const addToCart = () => {
-    addItem({
-      id: item?.id,
-      name: item?.attributes?.name,
-      price: item?.attributes?.price,
-      img: item?.attributes?.thumbnail?.data?.attributes?.url,
-    });
-  };
+  const [ele, setEle] = React.useState(null);
+    const addToCart = () => {
+          addItem({
+            id:id,
+            name: item?.name,
+            price: item?.price,
+            img: item?.image,
+          });
+        };
 
   return (
     <Box
@@ -92,7 +84,7 @@ const AddBtns = () => {
         />
       </Box>
     </Box>
-  );
+  )
 };
 
 export default AddBtns;

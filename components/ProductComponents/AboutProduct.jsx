@@ -18,10 +18,11 @@ const nova_thai_600 = localFont({
   display: "swap",
 });
 const AboutProduct = ({ data }) => {
+ 
   const [available,setAvailable]=React.useState(false);
   const [pin, setPin] = React.useState("208011");
   const pincodeCheck = async (value) => {
-    console.log(setPin);
+    // console.log(setPin);
     const response = await checkPincode(value);
     if(response){
       setAvailable(true);
@@ -40,7 +41,7 @@ const AboutProduct = ({ data }) => {
             className={`${nova_thai.className}`}
             style={{ fontSize: "20px", lineHeight: "32px" }}
           >
-            {data?.attributes?.name}
+            {data?.name}
           </Typography>
         </div>
         <div className={` ml-4 mt-6 mb-6`}>
@@ -48,7 +49,7 @@ const AboutProduct = ({ data }) => {
             className={`flex bg-[#319F43] w-[60px] items-center justify-center rounded-[6px] gap-1 py-[3px] px-[4px] text-black`}
           >
             <Typography variant="span" className={`text-white text-[14px]`}>
-              {data?.attributes?.rating}
+              {data?.rating}
             </Typography>
             <Image
               src={starIcon}
@@ -62,13 +63,13 @@ const AboutProduct = ({ data }) => {
             variant="span"
             className={`${nova_thai.className} text-black text-[30px] line-height-[30px] `}
           >
-            {`₹${data?.attributes?.price}`}
+            {`₹${data?.price}`}
           </Typography>
           <Typography
             variant="span"
             className={`${nova_thai.className} text-[#454545] text-[20px] line-height-[32px] line-through `}
           >
-            {`₹${data?.attributes?.original_price}`}
+            {`₹${data?.originalPrice}`}
           </Typography>
         </div>
       </div>
@@ -83,7 +84,7 @@ const AboutProduct = ({ data }) => {
               DELIVERY
             </Typography>
             <TextField
-             maxlength={6}
+             maxLength={6}
               onChange={(e)=>pincodeCheck(e.target.value)}
               id="standard-basic"
               placeholder="Pincode"
@@ -126,7 +127,7 @@ const AboutProduct = ({ data }) => {
             className={`text-[#0c0c0c] text-[20px] line-height-8  ${nova_thai_600}`}
             style={{ fontSize: "20px", lineHeight: "32px", fontWeight: 600 }}
           >
-            {data?.attributes?.description.replace(/\n/g, "\n\n")}
+            {data?.description?.replace(/\n/g, "\n\n")}
           </ReactMarkdown>
         </div>
       </div>

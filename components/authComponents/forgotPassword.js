@@ -1,8 +1,8 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { useMutation, gql } from '@apollo/client';
-import { FORGOT_PASSWORD } from '../../gqloperation/mutation';
+// import { useMutation, gql } from '@apollo/client';
+// import { FORGOT_PASSWORD } from '../../gqloperation/mutation';
 
 const initialValues = {
   email: '',
@@ -15,22 +15,22 @@ const ForgotPasswordSchema = Yup.object().shape({
 
 
 export default function ForgotPassword() {
-  const [forgotPass, { loading, error, data }] = useMutation(FORGOT_PASSWORD);
+  // const [forgotPass, { loading, error, data }] = useMutation(FORGOT_PASSWORD);
  
   const handleSubmit = async (values, { setSubmitting }) => {
-    console.log(values)
+    // console.log(values)
     // Handle form submission here, for example, sending the email for password reset
-    try {
-      const { data } = await forgotPass({
-        variables: {
-          email: values.email,
-        },
-      });
-      setSuccess(true);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   const { data } = await forgotPass({
+    //     variables: {
+    //       email: values.email,
+    //     },
+    //   });
+    //   setSuccess(true);
+    //   console.log(data);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   return (
